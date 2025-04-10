@@ -32,9 +32,9 @@ def upgrade() -> None:
 
     CREATE TYPE student_category AS ENUM (
         'preschooler',
-        '1-4_grade',
-        '5-8_grade',
-        '9-12_grade',
+        'grade_1-4',
+        'grade_5-8',
+        'grade_9-12',
         'adult'
     );
 

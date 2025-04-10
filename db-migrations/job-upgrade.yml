@@ -9,8 +9,8 @@ spec:
         - name: alembic-migration
           image: fredisson11/job-upgrade:1.0.0
           command: ["alembic", "upgrade", "head"]
-          env:
-            - name: DB_URL
-              value: "postgresql://db_user:my_Passwordcln@postgres-postgresql:5432/main_db"
+          envFrom:
+            - secretRef:
+                name: db-secret
       restartPolicy: Never
   backoffLimit: 4

@@ -6,3 +6,4 @@
 **/.env
 **/postgres-info.txt
 **/__pycache__/
+**/*secret*.y*ml
