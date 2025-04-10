@@ -59,6 +59,12 @@ resource "azurerm_storage_account" "storage" {
   account_replication_type = "LRS"
 }
 
+resource "azurerm_storage_container" "media" {
+  name                  = "${var.name_prefix}-media"
+  storage_account_id    = azurerm_storage_account.storage.id
+  container_access_type = "blob"
+}
+
 resource "azurerm_network_security_group" "nsg" {
   name                = "${var.name_prefix}-nsg"
   location            = azurerm_resource_group.rg.location
