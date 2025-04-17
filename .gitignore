@@ -7,3 +7,5 @@
 **/postgres-info.txt
 **/__pycache__/
 **/*secret*.y*ml
+**/*.auto.tfvars
+**/GCP_SERVICE_ACCOUNT_KEY.json

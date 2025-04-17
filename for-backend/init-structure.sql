@@ -64,7 +64,7 @@
         phone VARCHAR(50),
         city_id INT NOT NULL REFERENCES city(id) ON DELETE SET NULL,
         bio TEXT,
-        lesson_price DECIMAL(10, 2) NOT NULL,
+        lesson_price DECIMAL(10, 2),
         lesson_duration INT NOT NULL,
         hourly_price DECIMAL(10, 2) GENERATED ALWAYS AS (lesson_price / lesson_duration * 60) STORED,
         rating DECIMAL(3, 2) GENERATED ALWAYS AS (0) STORED,
