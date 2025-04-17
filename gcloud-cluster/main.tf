@@ -1,17 +1,3 @@
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "6.30.0"
-    }
-  }
-}
-
-provider "google" {
-  project = var.project
-  region  = var.region
-}
-
 resource "google_container_cluster" "k8s_cluster" {
   name                = "${var.environment}-cluster"
   location            = var.region
