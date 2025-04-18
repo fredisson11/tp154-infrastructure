@@ -14,15 +14,21 @@ init:
 
 plan: init
 	terraform plan -var-file=$(TFVARS) -var-file=$(SECRET)
+	rm backend.tf
 
 apply: init
 	terraform apply -auto-approve -var-file=$(TFVARS) -var-file=$(SECRET)
+	rm backend.tf
+
+refresh: init
+	terraform refresh -var-file=$(TFVARS) -var-file=$(SECRET)
+	rm backend.tf
 
 destroy: init
 	terraform destroy -auto-approve -var-file=$(TFVARS) -var-file=$(SECRET)
+	rm backend.tf
 
 clean:
 	@if [ -f backend.tf ]; then \
 		rm backend.tf; \
-		echo "🧹 Видалено тимчасовий backend.tf"; \
 	fi
