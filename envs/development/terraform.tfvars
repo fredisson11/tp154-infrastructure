@@ -6,6 +6,9 @@ project     = "arctic-shadow-457010-g7"
 
 is_db_pvc_enabled = true
 db_pvc_size       = "3Gi"
+db_architecture   = "replication"
+db_replica_count  = 1
+db_svc_type       = "LoadBalancer"
 
 prometheus_pvc_size            = "10Gi"
 prometheus_retention           = "7d"

@@ -32,6 +32,7 @@ variable "DB_ROOT_PASSWORD" {
 variable "DB_USER" {
   type        = string
   description = "PostgreSQL username"
+  sensitive   = true
 }
 
 variable "DB_PASSWORD" {
@@ -43,6 +44,7 @@ variable "DB_PASSWORD" {
 variable "DB_NAME" {
   type        = string
   description = "PostgreSQL database name"
+  sensitive   = true
 }
 
 variable "is_db_pvc_enabled" {
@@ -53,6 +55,27 @@ variable "is_db_pvc_enabled" {
 variable "db_pvc_size" {
   type        = string
   description = "Size of the persistence storage"
+}
+
+variable "db_architecture" {
+  type        = string
+  description = "Specifies the database deployment mode (standalone or replication)"
+}
+
+variable "db_replica_count" {
+  type        = number
+  description = "Number of read replicas (total pods = replicas + 1 primary)"
+}
+
+variable "DB_REPLICA_PASSWORD" {
+  type        = string
+  description = "Password used for PostgreSQL replication user"
+  sensitive   = true
+}
+
+variable "db_svc_type" {
+  type        = string
+  description = "Sets the Kubernetes Service type for PostgreSQL (ClusterIP, NodePort, or LoadBalancer)"
 }
 
 variable "GRAFANA_ADMIN_USER" {

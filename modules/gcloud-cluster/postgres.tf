@@ -39,4 +39,24 @@ resource "helm_release" "postgres" {
     name  = "auth.postgresPassword"
     value = var.DB_ROOT_PASSWORD
   }
+
+  set {
+    name  = "architecture"
+    value = var.db_architecture
+  }
+
+  set {
+    name  = "readReplicas.replicaCount"
+    value = var.db_replica_count
+  }
+
+  set {
+    name  = "auth.replicationPassword"
+    value = var.DB_REPLICA_PASSWORD
+  }
+
+  set {
+    name  = "service.type"
+    value = var.db_svc_type
+  }
 }
