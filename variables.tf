@@ -90,3 +90,8 @@ variable "is_alertmanager_enabled" {
   type        = bool
   description = "Flag to enable/disable Alertmanager"
 }
+
+variable "gcp_sa_key_file" {
+  type        = string
+  description = "Path to the GCP service account JSON key file"
+}

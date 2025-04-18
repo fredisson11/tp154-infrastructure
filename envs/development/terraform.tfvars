@@ -12,3 +12,5 @@ prometheus_retention           = "7d"
 is_grafana_persistence_enabled = true
 grafana_pvc_size               = "5Gi"
 is_alertmanager_enabled        = true
+
+gcp_sa_key_file = "./GCP_SERVICE_ACCOUNT_KEY.json"
