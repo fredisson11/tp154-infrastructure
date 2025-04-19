@@ -10,7 +10,7 @@ init:
 		cp $(BACKEND) backend.tf; \
 		echo "ℹ️ Підключено backend.tf з $(ENV)"; \
 	fi
-	terraform init
+	terraform init -reconfigure
 
 plan: init
 	terraform plan -var-file=$(TFVARS) -var-file=$(SECRET)
