@@ -52,11 +52,21 @@ resource "helm_release" "postgres" {
 
   set {
     name  = "auth.replicationPassword"
-    value = var.DB_REPLICA_PASSWORD
+    value = var.DB_REPLICATION_PASSWORD
   }
 
   set {
-    name  = "service.type"
-    value = var.db_svc_type
+    name  = "primary.service.type"
+    value = var.db_primary_svc_type
   }
+
+  set {
+    name  = "readReplicas.service.type"
+    value = var.db_replicas_svc_type
+  }
+
+  set {
+  name  = "primary.service.nodePorts.postgresql"
+  value = "30000"
+}
 }

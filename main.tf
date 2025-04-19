@@ -9,11 +9,12 @@ module "gcloud_cluster" {
   node_count = var.node_count
   node_cpu   = var.node_cpu
 
-  is_db_pvc_enabled = var.is_db_pvc_enabled
-  db_pvc_size       = var.db_pvc_size
-  db_architecture   = var.db_architecture
-  db_replica_count  = var.db_replica_count
-  db_svc_type       = var.db_svc_type
+  is_db_pvc_enabled    = var.is_db_pvc_enabled
+  db_pvc_size          = var.db_pvc_size
+  db_architecture      = var.db_architecture
+  db_replica_count     = var.db_replica_count
+  db_primary_svc_type  = var.db_primary_svc_type
+  db_replicas_svc_type = var.db_replicas_svc_type
 
   prometheus_pvc_size            = var.prometheus_pvc_size
   prometheus_retention           = var.prometheus_retention
@@ -21,11 +22,11 @@ module "gcloud_cluster" {
   grafana_pvc_size               = var.grafana_pvc_size
   is_alertmanager_enabled        = var.is_alertmanager_enabled
 
-  DB_ROOT_PASSWORD    = var.DB_ROOT_PASSWORD
-  DB_USER             = var.DB_USER
-  DB_PASSWORD         = var.DB_PASSWORD
-  DB_NAME             = var.DB_NAME
-  DB_REPLICA_PASSWORD = var.DB_REPLICA_PASSWORD
+  DB_ROOT_PASSWORD        = var.DB_ROOT_PASSWORD
+  DB_USER                 = var.DB_USER
+  DB_PASSWORD             = var.DB_PASSWORD
+  DB_NAME                 = var.DB_NAME
+  DB_REPLICATION_PASSWORD = var.DB_REPLICATION_PASSWORD
 
   GRAFANA_ADMIN_USER     = var.GRAFANA_ADMIN_USER
   GRAFANA_ADMIN_PASSWORD = var.GRAFANA_ADMIN_PASSWORD

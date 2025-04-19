@@ -67,15 +67,20 @@ variable "db_replica_count" {
   description = "Number of read replicas (total pods = replicas + 1 primary)"
 }
 
-variable "DB_REPLICA_PASSWORD" {
+variable "DB_REPLICATION_PASSWORD" {
   type        = string
   description = "Password used for PostgreSQL replication user"
   sensitive   = true
 }
 
-variable "db_svc_type" {
+variable "db_primary_svc_type" {
   type        = string
-  description = "Sets the Kubernetes Service type for PostgreSQL (ClusterIP, NodePort, or LoadBalancer)"
+  description = "Sets the Kubernetes Service type for primary"
+}
+
+variable "db_replicas_svc_type" {
+  type        = string
+  description = "Sets the Kubernetes Service type for replicas"
 }
 
 variable "GRAFANA_ADMIN_USER" {

@@ -1,4 +1,4 @@
-environment = "development"
+environment = "staging"
 node_count  = 2
 node_cpu    = 2
 region      = "europe-west1-b"
