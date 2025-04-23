@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+  password: c3RnX2shV1hHRzR5Z1VlWiFLN2Q=
+  postgres-password: c3RnX2lZUDQwLWc5JiszeEtISQ==
+  replication-password: c3RnX3JlZC1ma3VkVVRFaTZYLWk=
+kind: Secret
+metadata:
+  annotations:
+    meta.helm.sh/release-name: postgres
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2025-04-19T15:13:19Z"
+  labels:
+    app.kubernetes.io/instance: postgres
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: postgresql
+    helm.sh/chart: postgresql-12.1.0
+  name: postgres-postgresql
+  namespace: default
+  resourceVersion: "6384"
+  uid: 786ec46f-1895-493c-92df-c4277a4c835a
+type: Opaque

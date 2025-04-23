@@ -1,0 +1,18 @@
+🎉 {{ .Chart.Name | title }} Helm Chart Installed!
+
+✅ Deployment name: {{ .Release.Name }}
+✅ Namespace: {{ .Release.Namespace }}
+✅ Image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+
+🔗 Access the service using:
+  ClusterIP: {{ .Chart.Name }}-svc:{{ .Values.service.port }}
+  (Inside the cluster)
+
+🧪 Health check:
+  GET /health/ on port {{ .Values.service.port }}
+
+📦 HPA:
+  Min Pods: {{ .Values.autoscaling.minReplicas }}
+  Max Pods: {{ .Values.autoscaling.maxReplicas }}
+
+💡 Remember to set correct DB values in secrets/config before using in production.

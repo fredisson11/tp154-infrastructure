@@ -1,0 +1,12 @@
+{{- if or (eq .Values.config.DB_HOST "placeholder") (eq .Values.config.DB_PORT "placeholder") (eq .Values.config.DB_NAME "placeholder") }}
+{{- fail "❌ Значення в config.* мають 'placeholder'. Будь ласка, заміни через --set або values файл." }}
+{{- end }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+data:
+  DB_HOST: {{ .Values.config.DB_HOST | quote }}
+  DB_PORT: {{ .Values.config.DB_PORT | quote }}
+  DB_NAME: {{ .Values.config.DB_NAME | quote }}

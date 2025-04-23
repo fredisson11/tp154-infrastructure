@@ -8,7 +8,7 @@ BACKEND = envs/$(ENV)/backend.tf
 init:
 	@if [ -f $(BACKEND) ]; then \
 		cp $(BACKEND) backend.tf; \
-		echo "ℹ️ Підключено backend.tf з $(ENV)"; \
+		echo "ℹ️ Connected backend.tf з $(ENV)"; \
 	fi
 	terraform init -reconfigure
 

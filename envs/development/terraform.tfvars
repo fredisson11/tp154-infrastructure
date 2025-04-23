@@ -17,4 +17,4 @@ is_grafana_persistence_enabled = true
 grafana_pvc_size               = "5Gi"
 is_alertmanager_enabled        = true
 
-gcp_sa_key_file = "./GCP_SERVICE_ACCOUNT_KEY.json"
+gcp_sa_key_file = "./envs/development/GCP_SERVICE_ACCOUNT_KEY.json"

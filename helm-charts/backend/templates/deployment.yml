@@ -1,0 +1,50 @@
+{{- if or (eq .Values.image.repository "placeholder") (eq .Values.image.tag "placeholder") }}
+{{- fail "❌ Значення image.repository або image.tag залишилися 'placeholder'. Задай через --set або values файл." }}
+{{- end }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
+        resources:
+          requests:
+            memory: {{ .Values.resources.requests.memory }}
+            cpu: {{ .Values.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
+            cpu: {{ .Values.resources.limits.cpu }}
+        livenessProbe:
+          httpGet:
+            path: /health/
+            port: {{ .Values.service.targetPort }}
+          initialDelaySeconds: 45
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/
+            port: {{ .Values.service.targetPort }}
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          failureThreshold: 3
+        envFrom:
+        - configMapRef:
+            name: {{ .Chart.Name }}-config
+        - secretRef:
+            name: {{ .Chart.Name }}-secrets

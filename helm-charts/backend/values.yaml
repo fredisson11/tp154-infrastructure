@@ -1,0 +1,33 @@
+image:
+  repository: placeholder
+  tag: placeholder
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "250m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+
+service:
+  port: 8000
+  targetPort: 8000
+
+config:
+  DB_HOST: placeholder
+  DB_PORT: placeholder
+  DB_NAME: placeholder
+
+secrets:
+  DB_USER: placeholder
+  DB_PASSWORD: placeholder
+
+autoscaling:
+  minReplicas: 2
+  maxReplicas: 5
+  cpu:
+    targetAverageUtilization: 70
+  memory:
+    targetAverageUtilization: 75

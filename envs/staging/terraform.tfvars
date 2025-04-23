@@ -2,7 +2,7 @@ environment = "staging"
 node_count  = 2
 node_cpu    = 2
 region      = "europe-west1-b"
-project     = "arctic-shadow-457010-g7"
+project     = "tp154-staging"
 
 is_db_pvc_enabled    = true
 db_pvc_size          = "3Gi"
@@ -17,4 +17,4 @@ is_grafana_persistence_enabled = true
 grafana_pvc_size               = "5Gi"
 is_alertmanager_enabled        = true
 
-gcp_sa_key_file = "./GCP_SERVICE_ACCOUNT_KEY.json"
+gcp_sa_key_file = "./envs/staging/GCP_SERVICE_ACCOUNT_KEY.json"
