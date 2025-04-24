@@ -1,0 +1,12 @@
+{{- if .Values.mediaStorage.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Chart.Name }}-media-pvc
+spec:
+  accessModes: {{ .Values.mediaStorage.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.mediaStorage.size }}
+  storageClassName: {{ .Values.mediaStorage.storageClassName }}
+{{- end }}

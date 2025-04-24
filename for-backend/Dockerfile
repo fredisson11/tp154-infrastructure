@@ -40,9 +40,9 @@ RUN apt-get purge -y \
 
 RUN adduser --disabled-password --no-create-home my_user
 
-RUN mkdir -p /files/media && \
-    chown -R my_user /files/media && \
-    chmod -R 755 /files/media
+RUN mkdir -p /media && \
+    chown -R my_user /media && \
+    chmod -R 755 /media
 
 COPY . .
 

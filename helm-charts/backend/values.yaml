@@ -31,3 +31,10 @@ autoscaling:
     targetAverageUtilization: 70
   memory:
     targetAverageUtilization: 75
+
+mediaStorage:
+  enabled: true
+  storageClassName: "standard"
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  mountPath: /media

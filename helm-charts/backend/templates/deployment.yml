@@ -16,6 +16,16 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ .Chart.Name }}
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: {{ .Chart.Name }}
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -48,3 +58,16 @@ spec:
             name: {{ .Chart.Name }}-config
         - secretRef:
             name: {{ .Chart.Name }}-secrets
+
+        {{- if .Values.mediaStorage.enabled }}
+        volumeMounts:
+        - name: {{ .Chart.Name }}-media-volume
+          mountPath: {{ .Values.mediaStorage.mountPath }}
+        {{- end }}
+
+      {{- if .Values.mediaStorage.enabled }}
+      volumes:
+      - name: {{ .Chart.Name }}-media-volume
+        persistentVolumeClaim:
+          claimName: {{ .Chart.Name }}-media-pvc
+      {{- end }}
