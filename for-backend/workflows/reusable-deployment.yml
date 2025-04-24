@@ -1,0 +1,68 @@
+name: Deploy Backend
+run-name: ${{ github.actor }} - ${{ github.ref_name }} - [${{ github.sha }}]
+
+on:
+  workflow_call:
+    inputs:
+      ENV:
+        type: string
+        required: true
+      IMAGE_REPO:
+        type: string
+        required: true
+      IMAGE_TAG:
+        type: string
+        required: true
+      HELM_RELEASE_NAME:
+        type: string
+        required: true
+      HELM_NAMESPACE:
+        type: string
+        required: true
+      OS:
+        type: string
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy Backend via Helm to ${{ inputs.ENV }}
+    runs-on: ${{ inputs.OS }}
+    environment: ${{ inputs.ENV }}
+    steps:
+    - name: Checkout backend repository
+      uses: actions/checkout@v3
+
+    - name: Checkout infrastructure repository
+      uses: actions/checkout@v3
+      with:
+        repository: fredisson11/tp154-infrastructure
+        path: infrastructure
+        token: ${{ secrets.INFRASTRUCTUTE_REPO_TOKEN }}
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+
+    - name: Validate Helm chart (dry-run)
+      run: |
+        helm upgrade --install ${{ inputs.HELM_RELEASE_NAME }} ./infrastructure/helm-charts/backend \
+          --namespace ${{ inputs.HELM_NAMESPACE }} \
+          --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
+          --set image.tag=${{ inputs.IMAGE_TAG }} \
+          --set config.DB_HOST=${{ secrets.DB_HOST }} \
+          --set config.DB_PORT=${{ secrets.DB_PORT }} \
+          --set config.DB_NAME=${{ secrets.DB_NAME }} \
+          --set secrets.DB_USER=${{ secrets.DB_USER }} \
+          --set secrets.DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          --dry-run --debug
+
+    - name: Deploy backend via Helm
+      run: |
+        helm upgrade --install ${{ inputs.HELM_RELEASE_NAME }} ./infrastructure/helm-charts/backend \
+          --namespace ${{ inputs.HELM_NAMESPACE }} \
+          --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ .inputs.IMAGE_REPO }} \
+          --set image.tag=${{ inputs.IMAGE_TAG }} \
+          --set config.DB_HOST=${{ secrets.DB_HOST }} \
+          --set config.DB_PORT=${{ secrets.DB_PORT }} \
+          --set config.DB_NAME=${{ secrets.DB_NAME }} \
+          --set secrets.DB_USER=${{ secrets.DB_USER }} \
+          --set secrets.DB_PASSWORD=${{ secrets.DB_PASSWORD }}
