@@ -1,0 +1,94 @@
+name: Backend CD
+run-name: ${{ github.actor }} - ${{ github.ref_name }} - [${{ github.sha }}]
+
+on:
+  workflow_call:
+    inputs:
+      IMAGE_REPO:
+        type: string
+        required: true
+      IMAGE_TAG:
+        type: string
+        required: true
+      HELM_RELEASE_NAME:
+        type: string
+        required: true
+      HELM_NAMESPACE:
+        type: string
+        required: true
+      OS:
+        type: string
+        required: true
+  workflow_dispatch:
+
+env:
+  ARTIFACT_PATH: 'backend-deploy-inputs/inputs.env'
+
+jobs:
+  deploy-development:
+    name: Deploy to Development
+    if: github.event_name == 'workflow_call'
+    uses: ./.github/workflows/backend-cd-reusable.yml
+    with:
+      ENV: development
+      OS: ${{ inputs.OS }}
+      IMAGE_REPO: ${{ inputs.IMAGE_REPO }}
+      IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
+      HELM_RELEASE_NAME: ${{ inputs.HELM_RELEASE_NAME }}
+      HELM_NAMESPACE: ${{ inputs.HELM_NAMESPACE }}
+
+  save-deploy-inputs:
+    name: Save inputs as artifact
+    if: github.event_name == 'workflow_call'
+    runs-on: ${{ inputs.OS }}
+    needs: deploy-development
+    steps:
+    - name: Create deploy metadata
+      run: |
+        mkdir -p deploy
+        echo "ENV=staging" > ${{ env.ARTIFACT_PATH }}
+        echo "IMAGE_REPO=${{ inputs.IMAGE_REPO }}" >> ${{ env.ARTIFACT_PATH }}
+        echo "IMAGE_TAG=${{ inputs.IMAGE_TAG }}" >> ${{ env.ARTIFACT_PATH }}
+        echo "HELM_RELEASE_NAME=${{ inputs.HELM_RELEASE_NAME }}" >> ${{ env.ARTIFACT_PATH }}
+        echo "HELM_NAMESPACE=${{ inputs.HELM_NAMESPACE }}" >> ${{ env.ARTIFACT_PATH }}
+        echo "OS=${{ inputs.OS }}" >> ${{ env.ARTIFACT_PATH }}
+
+    - name: Upload inputs as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: backend-deploy-inputs
+        path: ${{ env.ARTIFACT_PATH }}
+
+  deploy-staging:
+    name: Deploy to Staging
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ${{ inputs.OS }}
+    needs: save-deploy-inputs
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: backend-deploy-inputs
+
+    - name: Load inputs from artifact
+      id: load
+      run: |
+        set -a
+        source ${{ env.ARTIFACT_PATH }}
+        set +a
+        echo "env=$ENV" >> $GITHUB_OUTPUT
+        echo "os=$OS" >> $GITHUB_OUTPUT
+        echo "repo=$IMAGE_REPO" >> $GITHUB_OUTPUT
+        echo "tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+        echo "release=$HELM_RELEASE_NAME" >> $GITHUB_OUTPUT
+        echo "namespace=$HELM_NAMESPACE" >> $GITHUB_OUTPUT
+
+    - name: Call reusable deployment
+      uses: ./.github/workflows/backend-cd-reusable.yml
+      with:
+        ENV: ${{ steps.load.outputs.env }}
+        OS: ${{ steps.load.outputs.os }}
+        IMAGE_REPO: ${{ steps.load.outputs.repo }}
+        IMAGE_TAG: ${{ steps.load.outputs.tag }}
+        HELM_RELEASE_NAME: ${{ steps.load.outputs.release }}
+        HELM_NAMESPACE: ${{ steps.load.outputs.namespace }}
