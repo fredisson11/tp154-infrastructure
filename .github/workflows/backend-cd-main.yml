@@ -2,7 +2,7 @@ name: Backend CD
 run-name: ${{ github.actor }} - ${{ github.ref_name }} - [${{ github.sha }}]
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       IMAGE_REPO:
         type: string
@@ -16,7 +16,6 @@ on:
       HELM_NAMESPACE:
         type: string
         required: true
-  workflow_dispatch:
 
 env:
   ARTIFACT_PATH: 'backend-deploy-inputs/inputs.env'
