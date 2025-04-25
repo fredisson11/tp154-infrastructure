@@ -1,5 +1,5 @@
 {{- if or (eq .Values.config.DB_HOST "placeholder") (eq .Values.config.DB_PORT "placeholder") (eq .Values.config.DB_NAME "placeholder") }}
-{{- fail "❌ Значення в config.* мають 'placeholder'. Будь ласка, заміни через --set або values файл." }}
+{{- fail "❌ config.DB_HOST, config.DB_PORT and config.DB_NAME must be specified!" }}
 {{- end }}
 
 apiVersion: v1

@@ -1,5 +1,5 @@
 {{- if or (eq .Values.image.repository "placeholder") (eq .Values.image.tag "placeholder") }}
-{{- fail "❌ Значення image.repository або image.tag залишилися 'placeholder'. Задай через --set або values файл." }}
+{{- fail "❌ image.repository and image.tag must be specified!" }}
 {{- end }}
 
 apiVersion: apps/v1
