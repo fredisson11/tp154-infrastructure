@@ -19,14 +19,11 @@ on:
       HELM_NAMESPACE:
         type: string
         required: true
-      OS:
-        type: string
-        required: true
 
 jobs:
   deploy:
     name: Deploy Backend via Helm to ${{ inputs.ENV }}
-    runs-on: ${{ inputs.OS }}
+    runs-on: ubuntu-latest
     environment: ${{ inputs.ENV }}
     steps:
     - name: Checkout backend repository
