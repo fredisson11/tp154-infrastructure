@@ -49,7 +49,7 @@ jobs:
         echo "HELM_NAMESPACE=${{ inputs.HELM_NAMESPACE }}" >> ${{ env.ARTIFACT_PATH }}
 
     - name: Upload inputs as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: backend-deploy-inputs
         path: ${{ env.ARTIFACT_PATH }}
@@ -61,7 +61,7 @@ jobs:
     needs: save-deploy-inputs
     steps:
     - name: Download artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: backend-deploy-inputs
 
