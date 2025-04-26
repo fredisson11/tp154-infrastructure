@@ -22,6 +22,7 @@ jobs:
       ENV: development
       IMAGE_REPO: ${{ inputs.IMAGE_REPO }}
       IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
+    secrets: inherit
 
   save-deploy-inputs:
     name: Save inputs as artifact
@@ -42,31 +43,38 @@ jobs:
         name: backend-deploy-inputs
         path: ${{ env.ARTIFACT_PATH }}
 
-  deploy-staging:
-    name: Deploy to Staging
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.IMAGE_TAG == ''
+  prepare-staging:
+    name: Prepare inputs for Staging
     runs-on: ubuntu-latest
     needs: save-deploy-inputs
 
+    outputs:
+      ENV: ${{ steps.load.outputs.ENV }}
+      IMAGE_REPO: ${{ steps.load.outputs.IMAGE_REPO }}
+      IMAGE_TAG: ${{ steps.load.outputs.IMAGE_TAG }}
+
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: backend-deploy-inputs
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-deploy-inputs
 
-    - name: Load inputs from artifact
-      id: load
-      run: |
-        set -a
-        source ${{ env.ARTIFACT_PATH }}
-        set +a
-        echo "env=$ENV" >> $GITHUB_OUTPUT
-        echo "repo=$IMAGE_REPO" >> $GITHUB_OUTPUT
-        echo "tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+      - name: Load inputs from artifact
+        id: load
+        run: |
+          set -a
+          source ${{ env.ARTIFACT_PATH }}
+          set +a
+          echo "ENV=$ENV" >> $GITHUB_OUTPUT
+          echo "IMAGE_REPO=$IMAGE_REPO" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-    - name: Call reusable deployment
-      uses: ./.github/workflows/backend-cd-reusable.yml
-      with:
-        ENV: ${{ steps.load.outputs.env }}
-        IMAGE_REPO: ${{ steps.load.outputs.repo }}
-        IMAGE_TAG: ${{ steps.load.outputs.tag }}
+  deploy-staging:
+    name: Deploy to Staging
+    uses: ./.github/workflows/backend-cd-reusable.yml
+    needs: prepare-staging
+    with:
+      ENV: ${{ needs.prepare-staging.outputs.ENV }}
+      IMAGE_REPO: ${{ needs.prepare-staging.outputs.IMAGE_REPO }}
+      IMAGE_TAG: ${{ needs.prepare-staging.outputs.IMAGE_TAG }}
+    secrets: inherit
