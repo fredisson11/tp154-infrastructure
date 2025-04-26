@@ -10,12 +10,6 @@ on:
       IMAGE_TAG:
         type: string
         required: true
-      HELM_RELEASE_NAME:
-        type: string
-        required: true
-      HELM_NAMESPACE:
-        type: string
-        required: true
 
 env:
   ARTIFACT_PATH: 'backend-deploy-inputs/inputs.env'
@@ -28,13 +22,12 @@ jobs:
       ENV: development
       IMAGE_REPO: ${{ inputs.IMAGE_REPO }}
       IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
-      HELM_RELEASE_NAME: ${{ inputs.HELM_RELEASE_NAME }}
-      HELM_NAMESPACE: ${{ inputs.HELM_NAMESPACE }}
 
   save-deploy-inputs:
     name: Save inputs as artifact
     runs-on: ubuntu-latest
     needs: deploy-development
+
     steps:
     - name: Create deploy metadata
       run: |
@@ -42,8 +35,6 @@ jobs:
         echo "ENV=staging" > ${{ env.ARTIFACT_PATH }}
         echo "IMAGE_REPO=${{ inputs.IMAGE_REPO }}" >> ${{ env.ARTIFACT_PATH }}
         echo "IMAGE_TAG=${{ inputs.IMAGE_TAG }}" >> ${{ env.ARTIFACT_PATH }}
-        echo "HELM_RELEASE_NAME=${{ inputs.HELM_RELEASE_NAME }}" >> ${{ env.ARTIFACT_PATH }}
-        echo "HELM_NAMESPACE=${{ inputs.HELM_NAMESPACE }}" >> ${{ env.ARTIFACT_PATH }}
 
     - name: Upload inputs as artifact
       uses: actions/upload-artifact@v4
@@ -56,6 +47,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.IMAGE_TAG == ''
     runs-on: ubuntu-latest
     needs: save-deploy-inputs
+
     steps:
     - name: Download artifact
       uses: actions/download-artifact@v4
@@ -71,8 +63,6 @@ jobs:
         echo "env=$ENV" >> $GITHUB_OUTPUT
         echo "repo=$IMAGE_REPO" >> $GITHUB_OUTPUT
         echo "tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
-        echo "release=$HELM_RELEASE_NAME" >> $GITHUB_OUTPUT
-        echo "namespace=$HELM_NAMESPACE" >> $GITHUB_OUTPUT
 
     - name: Call reusable deployment
       uses: ./.github/workflows/backend-cd-reusable.yml
@@ -80,5 +70,3 @@ jobs:
         ENV: ${{ steps.load.outputs.env }}
         IMAGE_REPO: ${{ steps.load.outputs.repo }}
         IMAGE_TAG: ${{ steps.load.outputs.tag }}
-        HELM_RELEASE_NAME: ${{ steps.load.outputs.release }}
-        HELM_NAMESPACE: ${{ steps.load.outputs.namespace }}
