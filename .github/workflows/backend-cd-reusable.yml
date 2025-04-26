@@ -44,12 +44,12 @@ jobs:
         helm upgrade --install ${{ vars.BACKEND_HELM_RELEASE_NAME }} ./helm-charts/backend \
           --namespace ${{ vars.BACKEND_HELM_NAMESPACE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
-          --set image.tag="${{ inputs.IMAGE_TAG }}" \
+          --set image.tag=${{ inputs.IMAGE_TAG }} \
           --set config.DB_HOST=${{ vars.DB_HOST }} \
-          --set config.DB_PORT="${{ vars.DB_PORT }}" \
+          --set config.DB_PORT=${{ vars.DB_PORT }} \
           --set config.DB_NAME=${{ vars.DB_NAME }} \
           --set secrets.DB_USER=${{ secrets.DB_USER }} \
-          --set secrets.DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+          --set secrets.DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
           --dry-run --debug
 
     - name: Deploy backend via Helm
@@ -57,9 +57,9 @@ jobs:
         helm upgrade --install ${{ inputs.HELM_RELEASE_NAME }} ./helm-charts/backend \
           --namespace ${{ inputs.HELM_NAMESPACE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
-          --set image.tag="${{ inputs.IMAGE_TAG }}" \
+          --set image.tag=${{ inputs.IMAGE_TAG }} \
           --set config.DB_HOST=${{ secrets.DB_HOST }} \
-          --set config.DB_PORT="${{ secrets.DB_PORT }}" \
+          --set config.DB_PORT=${{ secrets.DB_PORT }} \
           --set config.DB_NAME=${{ secrets.DB_NAME }} \
           --set secrets.DB_USER=${{ secrets.DB_USER }} \
-          --set secrets.DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+          --set secrets.DB_PASSWORD=${{ secrets.DB_PASSWORD }}
