@@ -21,6 +21,9 @@ jobs:
     environment: ${{ inputs.ENV }}
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
       with:
@@ -38,7 +41,7 @@ jobs:
 
     - name: Validate Helm chart (dry-run)
       run: |
-        helm upgrade --install ${{ vars.BACKEND_HELM_RELEASE_NAME }} ./infrastructure/helm-charts/backend \
+        helm upgrade --install ${{ vars.BACKEND_HELM_RELEASE_NAME }} ./helm-charts/backend \
           --namespace ${{ vars.BACKEND_HELM_NAMESPACE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
           --set image.tag=${{ inputs.IMAGE_TAG }} \
@@ -51,7 +54,7 @@ jobs:
 
     - name: Deploy backend via Helm
       run: |
-        helm upgrade --install ${{ inputs.HELM_RELEASE_NAME }} ./infrastructure/helm-charts/backend \
+        helm upgrade --install ${{ inputs.HELM_RELEASE_NAME }} ./helm-charts/backend \
           --namespace ${{ inputs.HELM_NAMESPACE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
           --set image.tag=${{ inputs.IMAGE_TAG }} \
