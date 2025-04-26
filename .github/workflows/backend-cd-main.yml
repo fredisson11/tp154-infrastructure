@@ -12,7 +12,7 @@ on:
         required: true
 
 env:
-  ARTIFACT_PATH: 'backend-deploy-inputs/inputs.env'
+  ARTIFACT_PATH: 'deploy/inputs.env'
 
 jobs:
   deploy-development:
@@ -32,7 +32,7 @@ jobs:
     steps:
     - name: Create deploy metadata
       run: |
-        mkdir -p deploy
+        mkdir -p $(dirname "${{ env.ARTIFACT_PATH }}")
         echo "ENV=staging" > ${{ env.ARTIFACT_PATH }}
         echo "IMAGE_REPO=${{ inputs.IMAGE_REPO }}" >> ${{ env.ARTIFACT_PATH }}
         echo "IMAGE_TAG=${{ inputs.IMAGE_TAG }}" >> ${{ env.ARTIFACT_PATH }}
