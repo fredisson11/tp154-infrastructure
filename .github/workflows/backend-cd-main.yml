@@ -54,10 +54,15 @@ jobs:
       IMAGE_TAG: ${{ steps.load.outputs.IMAGE_TAG }}
 
     steps:
+      - name: Set artifact directory
+        id: set-dir
+        run: echo "ARTIFACT_DIR=$(dirname '${{ env.ARTIFACT_PATH }}')" >> $GITHUB_ENV
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: backend-deploy-inputs
+          path: ${{ env.ARTIFACT_DIR }}
 
       - name: Load inputs from artifact
         id: load
