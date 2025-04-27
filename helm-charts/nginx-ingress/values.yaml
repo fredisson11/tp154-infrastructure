@@ -1,0 +1,16 @@
+ingressClass: "nginx"
+host: ""
+
+basicAuthUsername: "tp154-dev"
+basicAuthPassword: "tp154-pass-&!Lv"
+
+services:
+  - name: "backend-svc"
+    path: "/backend"
+    port: 8000
+  - name: "kube-prometheus-stack-grafana"
+    path: "/grafana"
+    port: 80
+  - name: "kube-prometheus-stack-prometheus"
+    path: "/prometheus"
+    port: 9090
