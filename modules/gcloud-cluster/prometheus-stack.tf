@@ -44,4 +44,24 @@ resource "helm_release" "prometheus_stack" {
     name  = "grafana.persistence.size"
     value = var.grafana_pvc_size
   }
+
+  set {
+    name  = "grafana.grafana.ini.server.root_url"
+    value = "http://localhost/grafana/"
+  }
+
+  set {
+    name  = "grafana.grafana.ini.server.serve_from_sub_path"
+    value = "true"
+  }
+
+  set {
+    name  = "prometheus.prometheusSpec.externalUrl"
+    value = "http://localhost/prometheus"
+  }
+
+  set {
+    name  = "prometheus.prometheusSpec.routePrefix"
+    value = "/prometheus"
+  }
 }
