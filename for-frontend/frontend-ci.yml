@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "20"
   IMAGE_TAG: "${{ github.sha }}"
 
 jobs:
@@ -30,16 +30,23 @@ jobs:
       - name: "📥 Checkout code"
         uses: actions/checkout@v3
 
-      - name: "🐍 Set up Python"
-        uses: actions/setup-python@v4
+      - name: "🔧 Set up Node.js"
+        uses: actions/setup-node@v4
         with:
-          python-version: "${{ env.PYTHON_VERSION }}"
+          python-version: "${{ env.NODE_VERSION }}"
+
+      - name: "📦 Install dependencies"
+        run: npm ci
 
       - name: "📦 Install test tools"
-        run: pip install flake8 bandit pytest
+        run: npm install --save-dev prettier bandit jest
 
-      - name: "🎨 Run flake8 (style checks)"
-        run: flake8 .
+      - name: "🎨 Run eslint (style checks)"
+        run: npm run lint
+        continue-on-error: true
+
+      - name: "📋 Run prettier (format checks)"
+        run: npm run prettier --check .
         continue-on-error: true
 
       - name: "🔐 Run bandit (security checks) and save report"
@@ -55,12 +62,12 @@ jobs:
           path: reports/bandit-report.txt
         continue-on-error: true
 
-      - name: "🧪 Run unit tests uses Pytest (placeholder)"
+      - name: "🧪 Run unit tests uses Jest (placeholder)"
         # Placeholder for future unit tests
         # This will always pass unless actual tests are added to the `tests/` directory.
         run: |
           echo "Running unit tests..."
-          pytest tests || true
+          npm run test || true
 
   build-and-push:
     name: "🐳 Build & Push Docker Image"
@@ -98,7 +105,7 @@ jobs:
           curl -i -X POST \
             -H "Authorization: Bearer ${{ secrets.INFRASTRUCTURE_REPO_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/fredisson11/tp154-infrastructure/actions/workflows/backend-cd-main.yml/dispatches \
+            https://api.github.com/repos/fredisson11/tp154-infrastructure/actions/workflows/frontend-cd-main.yml/dispatches \
             -d '{
               "ref": "main",
               "inputs": {

@@ -12,7 +12,6 @@ resources:
     cpu: "500m"
 
 service:
-  type: ClusterIP
   port: 3000
   targetPort: 3000
 
