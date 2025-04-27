@@ -12,17 +12,9 @@ resources:
     cpu: "500m"
 
 service:
-  port: 8000
-  targetPort: 8000
-
-config:
-  DB_HOST: placeholder
-  DB_PORT: placeholder
-  DB_NAME: placeholder
-
-secrets:
-  DB_USER: placeholder
-  DB_PASSWORD: placeholder
+  type: ClusterIP
+  port: 3000
+  targetPort: 3000
 
 autoscaling:
   minReplicas: 1
@@ -32,9 +24,9 @@ autoscaling:
   memory:
     targetAverageUtilization: 75
 
-mediaStorage:
+cacheStorage:
   enabled: true
   storageClassName: "standard"
   accessMode: ReadWriteOnce
   size: 1Gi
-  mountPath: /media
+  mountPath: /app/.next/cache

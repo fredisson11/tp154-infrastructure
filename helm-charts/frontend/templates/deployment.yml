@@ -1,0 +1,49 @@
+{{- if or (eq .Values.image.repository "placeholder") (eq .Values.image.tag "placeholder") }}
+{{- fail "❌ image.repository and image.tag must be specified!" }}
+{{- end }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  replicas:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ .Chart.Name }}
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: {{ .Chart.Name }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
+        resources:
+          requests:
+            memory: {{ .Values.resources.requests.memory }}
+            cpu: {{ .Values.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
+            cpu: {{ .Values.resources.limits.cpu }}
+        volumeMounts:
+        - name: {{ .Chart.Name }}-cache-volume
+          mountPath: {{ .Values.cache.mountPath }}
+
+      volumes:
+- name: {{ .Chart.Name }}-cache-volume
+  persistentVolumeClaim:
+    claimName: {{ .Chart.Name }}-cache-pvc
