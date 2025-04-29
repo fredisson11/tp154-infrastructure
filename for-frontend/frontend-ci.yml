@@ -1,4 +1,4 @@
-name: Backend CI/CD
+name: Frontend CI/CD
 run-name: "${{ github.actor }} - ${{ github.ref_name }} - [${{ github.sha }}]"
 
 on:
