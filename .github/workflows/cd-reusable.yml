@@ -1,0 +1,77 @@
+name: "♻️ Reusable CD Workflow"
+run-name: "${{ github.actor }} on ${{ github.ref_name }} - ${{ github.sha }}"
+
+on:
+  workflow_call:
+    inputs:
+      MICROSVC_TYPE:
+        type: string
+        required: true
+      ENV:
+        type: string
+        required: true
+      IMAGE_REPO:
+        type: string
+        required: true
+      IMAGE_TAG:
+        type: string
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.MICROSVC_TYPE }} via Helm to ${{ inputs.ENV }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.ENV }}
+
+    steps:
+    - name: "📥 Checkout repository"
+      uses: actions/checkout@v3
+
+    - name: "🔐 Authenticate to Google Cloud"
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: "🔧 Get GKE credentials"
+      uses: google-github-actions/get-gke-credentials@v2
+      with:
+        cluster_name: ${{ vars.GKE_CLUSTER_NAME }}
+        location: ${{ vars.GKE_CLUSTER_LOCATION }}
+        project_id: ${{ vars.GCP_PROJECT_ID }}
+
+    - name: "🛠️ Set up Helm"
+      uses: azure/setup-helm@v3
+
+    - name: "🧪 Validate Helm chart (dry-run)"
+      run: |
+        HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
+          --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
+          --set image.tag=${{ inputs.IMAGE_TAG }}"
+
+        if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
+          HELM_CMD="$HELM_CMD \
+            --set config.DB_HOST=${{ vars.DB_HOST }} \
+            --set config.DB_PORT=${{ vars.DB_PORT }} \
+            --set config.DB_NAME=${{ vars.DB_NAME }} \
+            --set secrets.DB_USER='${{ secrets.DB_USER }}' \
+            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}'"
+        fi
+
+        $HELM_CMD --dry-run --debug
+
+    - name: "🚀 Deploy ${{ inputs.MICROSVC_TYPE }} via Helm"
+      run: |
+        HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
+          --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
+          --set image.tag=${{ inputs.IMAGE_TAG }}"
+
+        if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
+          HELM_CMD="$HELM_CMD \
+            --set config.DB_HOST=${{ vars.DB_HOST }} \
+            --set config.DB_PORT=${{ vars.DB_PORT }} \
+            --set config.DB_NAME=${{ vars.DB_NAME }} \
+            --set secrets.DB_USER='${{ secrets.DB_USER }}' \
+            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}'"
+        fi
+
+        $HELM_CMD --debug
