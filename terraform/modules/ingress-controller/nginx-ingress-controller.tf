@@ -1,27 +1,27 @@
 resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress"
-  namespace  = var.namespace
+  namespace  = "default"
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "nginx-ingress-controller"
   version    = "9.3.19"
 
   set {
     name  = "controller.service.externalTrafficPolicy"
-    value = var.controller_svc_external_traffic_policy
+    value = var.external_traffic_policy
   }
 
   set {
     name  = "controller.service.annotations.service.beta.kubernetes.io/aws-load-balancer-type"
-    value = var.controller_svc_load_balancer_type
+    value = var.load_balancer_type
   }
 
   set {
     name  = "controller.service.type"
-    value = var.controller_svc_type
+    value = var.svc_type
   }
 
   set {
     name  = "controller.ingressClass"
-    value = var.controller_ingress_class
+    value = var.ingress_class
   }
 }

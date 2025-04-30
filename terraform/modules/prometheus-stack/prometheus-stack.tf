@@ -22,7 +22,7 @@ resource "helm_release" "prometheus_stack" {
 
   set {
     name  = "prometheus.prometheusSpec.retention"
-    value = "7d"
+    value = var.prometheus_retention
   }
 
   set {
@@ -47,21 +47,21 @@ resource "helm_release" "prometheus_stack" {
 
   set {
     name  = "grafana.grafana.ini.server.root_url"
-    value = "http://localhost/grafana/"
+    value = var.grafana_root_url
   }
 
   set {
     name  = "grafana.grafana.ini.server.serve_from_sub_path"
-    value = "true"
+    value = var.grafana_serve_from_sub_path
   }
 
   set {
     name  = "prometheus.prometheusSpec.externalUrl"
-    value = "http://localhost/prometheus"
+    value = var.prometheus_external_url
   }
 
   set {
     name  = "prometheus.prometheusSpec.routePrefix"
-    value = "/prometheus"
+    value = var.prometheus_route_prefix
   }
 }

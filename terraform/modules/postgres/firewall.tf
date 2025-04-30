@@ -1,4 +1,6 @@
 resource "google_compute_firewall" "allow_postgres" {
+  count = var.is_firewall_enabled ? 1 : 0
+
   name    = "allow-postgres"
   network = "default"
 

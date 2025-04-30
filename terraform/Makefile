@@ -28,6 +28,9 @@ destroy: init
 	terraform destroy -auto-approve -var-file=$(TFVARS) -var-file=$(SECRET)
 	rm backend.tf
 
+fmt:
+	terraform fmt -recursive
+
 clean:
 	@if [ -f backend.tf ]; then \
 		rm backend.tf; \
