@@ -5,12 +5,19 @@ basicAuthUsername: "tp154-dev"
 basicAuthPassword: "tp154-pass-&!Lv"
 
 services:
+  - name: "frontend-svc"
+    path: "/"
+    type: "Exact"
+    port: 3000
   - name: "backend-svc"
     path: "/backend"
+    type: "Prefix"
     port: 8000
   - name: "kube-prometheus-stack-grafana"
     path: "/grafana"
+    type: "Prefix"
     port: 80
   - name: "kube-prometheus-stack-prometheus"
     path: "/prometheus"
+    type: "Prefix"
     port: 9090

@@ -19,7 +19,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy ${{ inputs.MICROSVC_TYPE }} via Helm to ${{ inputs.ENV }}
+    name: "🚀 Deploy ${{ inputs.MICROSVC_TYPE }} via Helm to ${{ inputs.ENV }}"
     runs-on: ubuntu-latest
     environment: ${{ inputs.ENV }}
 
