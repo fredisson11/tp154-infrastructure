@@ -5,11 +5,6 @@ resource "helm_release" "prometheus_stack" {
   chart      = "kube-prometheus-stack"
   version    = "70.7.0"
 
-  depends_on = [
-    google_container_cluster.k8s_cluster,
-    google_container_node_pool.k8s_node_pool
-  ]
-
   set {
     name  = "grafana.adminUser"
     value = var.GRAFANA_ADMIN_USER

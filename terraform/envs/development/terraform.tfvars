@@ -20,7 +20,7 @@ db_primary_svc_type  = "LoadBalancer"
 db_replicas_svc_type = "ClusterIP"
 
 is_db_firewall_enabled = true
-db_primary_node_port   = "3000"
+db_primary_node_port   = "30000"
 
 prometheus_pvc_size            = "10Gi"
 prometheus_retention           = "7d"
