@@ -1,8 +1,10 @@
 ingressClass: "nginx"
 host: ""
 
-basicAuthUsername: "tp154-dev"
-basicAuthPassword: "tp154-pass-&!Lv"
+basicAuth:
+  enabled: true
+  basicAuthUsername: "tp154-dev"
+  basicAuthPassword: "tp154-pass-&!Lv"
 
 services:
   - name: "frontend-svc"
