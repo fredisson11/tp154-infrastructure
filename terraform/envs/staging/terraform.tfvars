@@ -27,11 +27,14 @@ prometheus_retention           = "7d"
 is_grafana_persistence_enabled = true
 grafana_pvc_size               = "5Gi"
 is_alertmanager_enabled        = true
-grafana_root_url               = "http://localhost/grafana/"
-grafana_serve_from_sub_path    = "true"
+grafana_root_url               = "%(protocol)s://%(domain)s/grafana/"
+grafana_serve_from_sub_path    = true
 prometheus_external_url        = "http://localhost/prometheus"
+# prometheus_external_url        = "http://35.233.1.209/prometheus"
 prometheus_route_prefix        = "/prometheus"
 
 controller_svc_external_traffic_policy = "Local"
 controller_svc_load_balancer_type      = "nlb"
 controller_ingress_class               = "nginx"
+
+ingress_basic_auth_enabled = true

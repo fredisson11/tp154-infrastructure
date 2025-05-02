@@ -15,7 +15,6 @@ module "gke_cluster" {
   disk_size_gb        = var.gke_disk_size_gb
   disk_type           = var.gke_disk_type
   deletion_protection = var.gke_deletion_protection
-
 }
 
 module "postgres" {
@@ -37,7 +36,6 @@ module "postgres" {
 
   is_firewall_enabled = var.is_db_firewall_enabled
   primary_node_port   = var.db_primary_node_port
-
 }
 
 module "prometheus-stack" {
@@ -57,7 +55,6 @@ module "prometheus-stack" {
   grafana_serve_from_sub_path = var.grafana_serve_from_sub_path
   prometheus_external_url     = var.prometheus_external_url
   prometheus_route_prefix     = var.prometheus_route_prefix
-
 }
 
 module "ingress-controller" {
@@ -67,5 +64,14 @@ module "ingress-controller" {
   external_traffic_policy = var.controller_svc_external_traffic_policy
   ingress_class           = var.controller_ingress_class
   load_balancer_type      = var.controller_svc_load_balancer_type
+}
 
+module "ingress" {
+  source = "./modules/ingress"
+  depends_on = [module.gke_cluster]
+
+  basic_auth_enabled = var.ingress_basic_auth_enabled
+
+  BASIC_AUTH_USER = var.INGRESS_BASIC_AUTH_USER
+  BASIC_AUTH_PASSWORD = var.INGRESS_BASIC_AUTH_PASSWORD
 }

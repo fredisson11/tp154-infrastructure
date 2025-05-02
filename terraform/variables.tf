@@ -209,3 +209,20 @@ variable "controller_ingress_class" {
   description = "Ingress class name for the ingress controller"
   type        = string
 }
+
+# --- Postgres vars:
+
+variable "ingress_basic_auth_enabled" {
+  type = bool
+  description = "Flag to enable or disable basic auth on ingress (true in dev, false in prod)"
+}
+
+variable "INGRESS_BASIC_AUTH_USER" {
+  type = string
+  description = "Ingress basic auth username (used if auth is enabled)"
+}
+
+variable "INGRESS_BASIC_AUTH_PASSWORD" {
+  type = string
+  description = "Ingress basic auth password (used if auth is enabled)"
+}

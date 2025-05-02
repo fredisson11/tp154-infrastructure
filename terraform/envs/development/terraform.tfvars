@@ -35,3 +35,5 @@ prometheus_route_prefix        = "/prometheus"
 controller_svc_external_traffic_policy = "Local"
 controller_svc_load_balancer_type      = "nlb"
 controller_ingress_class               = "nginx"
+
+ingress_basic_auth_enabled = true

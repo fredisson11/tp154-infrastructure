@@ -1,0 +1,16 @@
+# ⚠️ This file is used instead of relying solely on `set {}` in Terraform.
+# Some nested Helm values for Grafana (especially `grafana.ini`) do not apply reliably via `set`,
+# so we pass them through a rendered values template (grafana-values.yml).
+# Other values that are simpler and stable are passed via `set {}` for clarity and override flexibility.
+
+grafana:
+  grafana.ini:
+    server:
+      # root_url: "http://35.233.1.209/grafana/"
+      root_url: "%(protocol)s://%(domain)s/grafana/"
+      serve_from_sub_path: true
+  adminUser: ${GRAFANA_ADMIN_USER}
+  adminPassword: ${GRAFANA_ADMIN_PASSWORD}
+  persistence:
+    enabled: ${is_grafana_persistence_enabled}
+    size: ${grafana_pvc_size}

@@ -3,8 +3,8 @@ host: ""
 
 basicAuth:
   enabled: true
-  basicAuthUsername: "tp154-dev"
-  basicAuthPassword: "tp154-pass-&!Lv"
+  basicAuthUsername: placeholder
+  basicAuthPassword: placeholder
 
 services:
   - name: "frontend-svc"
@@ -16,8 +16,8 @@ services:
     type: "Prefix"
     port: 8000
   - name: "kube-prometheus-stack-grafana"
-    path: "/grafana"
-    type: "Prefix"
+    path: "/grafana(/|$)(.*)"
+    type: "ImplementationSpecific"
     port: 80
   - name: "kube-prometheus-stack-prometheus"
     path: "/prometheus"

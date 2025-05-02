@@ -5,15 +5,14 @@ resource "helm_release" "prometheus_stack" {
   chart      = "kube-prometheus-stack"
   version    = "70.7.0"
 
-  set {
-    name  = "grafana.adminUser"
-    value = var.GRAFANA_ADMIN_USER
-  }
-
-  set {
-    name  = "grafana.adminPassword"
-    value = var.GRAFANA_ADMIN_PASSWORD
-  }
+  values = [
+    templatefile("${path.module}/grafana-values.yml", {
+      GRAFANA_ADMIN_USER             = var.GRAFANA_ADMIN_USER
+      GRAFANA_ADMIN_PASSWORD         = var.GRAFANA_ADMIN_PASSWORD
+      is_grafana_persistence_enabled = var.is_grafana_persistence_enabled
+      grafana_pvc_size               = var.grafana_pvc_size
+    })
+  ]
 
   set {
     name  = "prometheus.prometheusSpec.retention"
@@ -31,26 +30,6 @@ resource "helm_release" "prometheus_stack" {
   }
 
   set {
-    name  = "grafana.persistence.enabled"
-    value = var.is_grafana_persistence_enabled
-  }
-
-  set {
-    name  = "grafana.persistence.size"
-    value = var.grafana_pvc_size
-  }
-
-  set {
-    name  = "grafana.grafana.ini.server.root_url"
-    value = var.grafana_root_url
-  }
-
-  set {
-    name  = "grafana.grafana.ini.server.serve_from_sub_path"
-    value = var.grafana_serve_from_sub_path
-  }
-
-  set {
     name  = "prometheus.prometheusSpec.externalUrl"
     value = var.prometheus_external_url
   }
@@ -59,4 +38,9 @@ resource "helm_release" "prometheus_stack" {
     name  = "prometheus.prometheusSpec.routePrefix"
     value = var.prometheus_route_prefix
   }
+
+  # set {
+  #   name  = "prometheusOperator.service.targetPort"
+  #   value = "10250"
+  # }
 }
