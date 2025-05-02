@@ -44,6 +44,6 @@ spec:
           mountPath: {{ .Values.cacheStorage.mountPath }}
 
       volumes:
-- name: {{ .Chart.Name }}-cache-volume
-  persistentVolumeClaim:
-    claimName: {{ .Chart.Name }}-cache-pvc
+      - name: {{ .Chart.Name }}-cache-volume
+        persistentVolumeClaim:
+          claimName: {{ .Chart.Name }}-cache-pvc
