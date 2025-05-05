@@ -20,6 +20,6 @@ services:
     type: "ImplementationSpecific"
     port: 80
   - name: "kube-prometheus-stack-prometheus"
-    path: "/prometheus"
-    type: "Prefix"
+    path: "/prometheus(/|$)(.*)"
+    type: "ImplementationSpecific"
     port: 9090

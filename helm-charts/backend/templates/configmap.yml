@@ -7,6 +7,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Chart.Name }}-config
 data:
-  DB_HOST: {{ .Values.config.DB_HOST | quote }}
-  DB_PORT: {{ .Values.config.DB_PORT | quote }}
-  DB_NAME: {{ .Values.config.DB_NAME | quote }}
+  DB_HOST: {{ .Values.config.DB_HOST }}
+  DB_PORT: {{ .Values.config.DB_PORT }}
+  DB_NAME: {{ .Values.config.DB_NAME }}

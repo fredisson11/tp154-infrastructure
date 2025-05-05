@@ -6,9 +6,10 @@
 grafana:
   grafana.ini:
     server:
-      # root_url: "http://35.233.1.209/grafana/"
-      root_url: "%(protocol)s://%(domain)s/grafana/"
-      serve_from_sub_path: true
+      root_url: ""
+      # root_url: "%(protocol)s://%(domain)s/grafana/"
+      # serve_from_sub_path: true
+      serve_from_sub_path: false
   adminUser: ${GRAFANA_ADMIN_USER}
   adminPassword: ${GRAFANA_ADMIN_PASSWORD}
   persistence:

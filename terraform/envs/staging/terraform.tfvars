@@ -29,9 +29,10 @@ grafana_pvc_size               = "5Gi"
 is_alertmanager_enabled        = true
 grafana_root_url               = "%(protocol)s://%(domain)s/grafana/"
 grafana_serve_from_sub_path    = true
-prometheus_external_url        = "http://localhost/prometheus"
-# prometheus_external_url        = "http://35.233.1.209/prometheus"
+# prometheus_external_url        = "http://localhost/prometheus"
 prometheus_route_prefix        = "/prometheus"
+prometheus_external_url        = "http://35.195.245.214/prometheus"
+# prometheus_route_prefix        = ""
 
 controller_svc_external_traffic_policy = "Local"
 controller_svc_load_balancer_type      = "nlb"
