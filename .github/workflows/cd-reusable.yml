@@ -50,9 +50,9 @@ jobs:
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
-            --set config.DB_HOST=${{ vars.DB_HOST }} \
-            --set config.DB_PORT=${{ vars.DB_PORT }} \
-            --set config.DB_NAME=${{ vars.DB_NAME }} \
+            --set config.DB_HOST='${{ vars.DB_HOST }}' \
+            --set config.DB_PORT='${{ vars.DB_PORT }}' \
+            --set config.DB_NAME='${{ vars.DB_NAME }}' \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
             --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}'"
         fi
@@ -67,9 +67,9 @@ jobs:
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
-            --set config.DB_HOST=${{ vars.DB_HOST }} \
-            --set config.DB_PORT=${{ vars.DB_PORT }} \
-            --set config.DB_NAME=${{ vars.DB_NAME }} \
+            --set config.DB_HOST='${{ vars.DB_HOST }}' \
+            --set config.DB_PORT='${{ vars.DB_PORT }}' \
+            --set config.DB_NAME='${{ vars.DB_NAME }}' \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
             --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}'"
         fi
