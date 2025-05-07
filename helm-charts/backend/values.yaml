@@ -33,7 +33,7 @@ autoscaling:
     targetAverageUtilization: 75
 
 mediaStorage:
-  enabled: true
+  enabled: false
   storageClassName: "standard"
   accessMode: ReadWriteOnce
   size: 1Gi
