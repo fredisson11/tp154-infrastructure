@@ -26,7 +26,7 @@ secrets:
 
 autoscaling:
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 2
   cpu:
     targetAverageUtilization: 70
   memory:
