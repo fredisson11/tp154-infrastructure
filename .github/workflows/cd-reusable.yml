@@ -46,7 +46,8 @@ jobs:
       run: |
         HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
-          --set image.tag=${{ inputs.IMAGE_TAG }}"
+          --set image.tag=${{ inputs.IMAGE_TAG }} \
+          --set service.type='LoadBalancer'"
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
@@ -71,7 +72,8 @@ jobs:
             --set config.DB_PORT='${{ vars.DB_PORT }}' \
             --set config.DB_NAME='${{ vars.DB_NAME }}' \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
-            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}'"
+            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
+            --set service.type='LoadBalancer'"
         fi
 
         $HELM_CMD --debug

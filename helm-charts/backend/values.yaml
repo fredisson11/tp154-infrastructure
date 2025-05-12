@@ -14,6 +14,7 @@ resources:
 service:
   port: 8000
   targetPort: 8000
+  type: ClusterIP
 
 config:
   DB_HOST: placeholder
@@ -26,7 +27,7 @@ secrets:
 
 autoscaling:
   minReplicas: 1
-  maxReplicas: 2
+  maxReplicas: 5
   cpu:
     targetAverageUtilization: 70
   memory:

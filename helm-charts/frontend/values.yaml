@@ -14,6 +14,7 @@ resources:
 service:
   port: 3000
   targetPort: 3000
+  type: LoadBalancer
 
 autoscaling:
   minReplicas: 1
