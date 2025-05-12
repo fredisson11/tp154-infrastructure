@@ -44,58 +44,34 @@ jobs:
 
     - name: "🧪 Validate Helm chart (dry-run)"
       run: |
-        HELM_CMD=$(cat <<EOF
-          helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
-            --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
-            --set image.tag=${{ inputs.IMAGE_TAG }} \
-            --set service.type='LoadBalancer'
-        EOF
-        )
+        HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
+          --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
+          --set image.tag=${{ inputs.IMAGE_TAG }}"
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
             --set config.DB_HOST='${{ vars.DB_HOST }}' \
             --set config.DB_PORT='${{ vars.DB_PORT }}' \
             --set config.DB_NAME='${{ vars.DB_NAME }}' \
-            --set config.EMAIL_HOST='${{ vars.BACKEND_EMAIL_HOST }}' \
-            --set config.EMAIL_PORT='${{ vars.BACKEND_EMAIL_PORT }}' \
-            --set config.EMAIL_USE_TLS=${{ vars.BACKEND_EMAIL_USE_TLS}} \
-            --set config.DEFAULT_FROM_EMAIL='${{ vars.BACKEND_DEFAULT_FROM_EMAIL }}' \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
-            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-            --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
-            --set secrets.EMAIL_HOST_PASSWORD='${{ secrets.BACKEND_EMAIL_HOST_PASSWORD }}' \
-            --set secrets.CELERY_BROKER_URL='${{ secrets.BACKEND_CELERY_BROKER_URL }}' \
-            --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}'"
+            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}'"
         fi
 
-        echo "::group::Final HELM_CMD"
-        echo "$HELM_CMD"
-        echo "::endgroup::"
         $HELM_CMD --dry-run --debug
 
     - name: "🚀 Deploy ${{ inputs.MICROSVC_TYPE }} via Helm"
       run: |
         HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
-          --set image.tag=${{ inputs.IMAGE_TAG }} \
-          --set service.type='LoadBalancer'"
+          --set image.tag=${{ inputs.IMAGE_TAG }}"
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
             --set config.DB_HOST='${{ vars.DB_HOST }}' \
             --set config.DB_PORT='${{ vars.DB_PORT }}' \
             --set config.DB_NAME='${{ vars.DB_NAME }}' \
-            --set config.EMAIL_HOST='${{ vars.BACKEND_EMAIL_HOST }}' \
-            --set config.EMAIL_PORT='${{ vars.BACKEND_EMAIL_PORT }}' \
-            --set config.EMAIL_USE_TLS=${{ vars.BACKEND_EMAIL_USE_TLS}} \
-            --set config.DEFAULT_FROM_EMAIL='${{ vars.BACKEND_DEFAULT_FROM_EMAIL }}' \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
-            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-            --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
-            --set secrets.EMAIL_HOST_PASSWORD='${{ secrets.BACKEND_EMAIL_HOST_PASSWORD }}' \
-            --set secrets.CELERY_BROKER_URL='${{ secrets.BACKEND_CELERY_BROKER_URL }}' \
-            --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}'"
+            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}'"
         fi
 
         $HELM_CMD --debug
