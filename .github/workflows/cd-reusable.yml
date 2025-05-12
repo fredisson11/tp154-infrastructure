@@ -49,7 +49,7 @@ jobs:
             --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
             --set image.tag=${{ inputs.IMAGE_TAG }} \
             --set service.type='LoadBalancer'
-          EOF
+        EOF
         )
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
@@ -68,7 +68,7 @@ jobs:
             --set secrets.CELERY_BROKER_URL='${{ secrets.BACKEND_CELERY_BROKER_URL }}' \
             --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}'"
         fi
-        
+
         echo "::group::Final HELM_CMD"
         echo "$HELM_CMD"
         echo "::endgroup::"
