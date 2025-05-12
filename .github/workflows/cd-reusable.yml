@@ -56,7 +56,7 @@ jobs:
             --set config.DB_NAME='${{ vars.DB_NAME }}' \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
             --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-            --set secrets.EMAIL_HOST=${{ secrets.BACKEND_EMAIL_HOST }}'"
+            --set secrets.EMAIL_HOST_USER=${{ secrets.BACKEND_EMAIL_HOST_USER }}'"
         fi
 
         $HELM_CMD --dry-run --debug
@@ -75,7 +75,7 @@ jobs:
             --set config.DB_NAME='${{ vars.DB_NAME }}' \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
             --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-            --set secrets.EMAIL_HOST=${{ secrets.BACKEND_EMAIL_HOST }}'"
+            --set secrets.EMAIL_HOST_USER=${{ secrets.BACKEND_EMAIL_HOST_USER }}'"
         fi
 
         $HELM_CMD --debug
