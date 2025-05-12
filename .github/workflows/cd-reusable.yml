@@ -50,34 +50,42 @@ jobs:
           --set service.type='LoadBalancer'"
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
+cat <<EOF > helm-secrets.yaml
+secrets:
+  DB_HOST: "${{ vars.DB_HOST }}"
+  DB_PORT: "${{ vars.DB_PORT }}"
+  DB_NAME: "${{ vars.DB_NAME }}"
+  DB_USER: "${{ secrets.DB_USER }}"
+  DB_PASSWORD: "${{ secrets.DB_PASSWORD }}"
+  EMAIL_HOST_USER: "${{ secrets.BACKEND_EMAIL_HOST_USER }}"
+  EMAIL_HOST_PASSWORD: "${{ secrets.BACKEND_EMAIL_HOST_PASSWORD }}"
+  CELERY_BROKER_URL: "${{ secrets.BACKEND_CELERY_BROKER_URL }}"
+  CELERY_RESULT_BACKEND: "${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}"
+
+EOF
+
           HELM_CMD="$HELM_CMD \
-            --set config.DB_HOST='${{ vars.DB_HOST }}' \
-            --set config.DB_PORT='${{ vars.DB_PORT }}' \
-            --set config.DB_NAME='${{ vars.DB_NAME }}' \
-            --set secrets.DB_USER='${{ secrets.DB_USER }}' \
-            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-            --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
-            --set secrets.EMAIL_HOST_PASSWORD='${{ secrets.BACKEND_EMAIL_HOST_PASSWORD }}'"
+            --values helm-secrets.yaml"
         fi
 
         $HELM_CMD --dry-run --debug
 
-    - name: "🚀 Deploy ${{ inputs.MICROSVC_TYPE }} via Helm"
-      run: |
-        HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
-          --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
-          --set image.tag=${{ inputs.IMAGE_TAG }} \
-          --set service.type='LoadBalancer'"
+    # - name: "🚀 Deploy ${{ inputs.MICROSVC_TYPE }} via Helm"
+    #   run: |
+    #     HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
+    #       --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
+    #       --set image.tag=${{ inputs.IMAGE_TAG }} \
+    #       --set service.type='LoadBalancer'"
 
-        if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
-          HELM_CMD="$HELM_CMD \
-            --set config.DB_HOST='${{ vars.DB_HOST }}' \
-            --set config.DB_PORT='${{ vars.DB_PORT }}' \
-            --set config.DB_NAME='${{ vars.DB_NAME }}' \
-            --set secrets.DB_USER='${{ secrets.DB_USER }}' \
-            --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-            --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
-            --set secrets.EMAIL_HOST_PASSWORD='${{ secrets.BACKEND_EMAIL_HOST_PASSWORD }}'"
-        fi
+    #     if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
+    #       HELM_CMD="$HELM_CMD \
+    #         --set config.DB_HOST='${{ vars.DB_HOST }}' \
+    #         --set config.DB_PORT='${{ vars.DB_PORT }}' \
+    #         --set config.DB_NAME='${{ vars.DB_NAME }}' \
+    #         --set secrets.DB_USER='${{ secrets.DB_USER }}' \
+    #         --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
+    #         --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
+    #         --set secrets.EMAIL_HOST_PASSWORD='${{ secrets.BACKEND_EMAIL_HOST_PASSWORD }}'"
+    #     fi
 
-        $HELM_CMD --debug
+    #     $HELM_CMD --debug
