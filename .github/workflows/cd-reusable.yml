@@ -47,7 +47,7 @@ jobs:
         HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
           --set image.tag=${{ inputs.IMAGE_TAG }} \
-          --set service.type='LoadBalancer'
+          --set service.type=LoadBalancer"
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
@@ -57,7 +57,7 @@ jobs:
 
             --set config.EMAIL_HOST='${{ vars.BACKEND_EMAIL_HOST }}' \
             --set config.EMAIL_PORT='${{ vars.BACKEND_EMAIL_PORT }}' \
-            --set config.EMAIL_USE_TLS='${{ vars.BACKEND_EMAIL_USE_TLS}}' \
+            --set config.EMAIL_USE_TLS=${{ vars.BACKEND_EMAIL_USE_TLS}} \
             --set config.DEFAULT_FROM_EMAIL='${{ vars.BACKEND_DEFAULT_FROM_EMAIL }}' \
 
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
@@ -77,7 +77,7 @@ jobs:
         HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
           --set image.tag=${{ inputs.IMAGE_TAG }} \
-          --set service.type='LoadBalancer'
+          --set service.type=LoadBalancer"
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
@@ -87,7 +87,7 @@ jobs:
 
             --set config.EMAIL_HOST='${{ vars.BACKEND_EMAIL_HOST }}' \
             --set config.EMAIL_PORT='${{ vars.BACKEND_EMAIL_PORT }}' \
-            --set config.EMAIL_USE_TLS='${{ vars.BACKEND_EMAIL_USE_TLS}}' \
+            --set config.EMAIL_USE_TLS=${{ vars.BACKEND_EMAIL_USE_TLS}} \
             --set config.DEFAULT_FROM_EMAIL='${{ vars.BACKEND_DEFAULT_FROM_EMAIL }}' \
 
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
