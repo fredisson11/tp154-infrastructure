@@ -3,6 +3,9 @@ image:
   tag: placeholder
   pullPolicy: IfNotPresent
 
+backend:
+  url: "http://backend-svc:8000"
+
 resources:
   requests:
     memory: "128Mi"

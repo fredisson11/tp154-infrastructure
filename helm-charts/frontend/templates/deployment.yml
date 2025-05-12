@@ -39,6 +39,9 @@ spec:
           limits:
             memory: {{ .Values.resources.limits.memory }}
             cpu: {{ .Values.resources.limits.cpu }}
+        env:
+        - name: BACKEND_URL
+          value: {{ .Values.backend.url | quote }}
         volumeMounts:
         - name: {{ .Chart.Name }}-cache-volume
           mountPath: {{ .Values.cacheStorage.mountPath }}
