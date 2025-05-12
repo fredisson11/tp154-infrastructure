@@ -13,5 +13,5 @@ data:
   
   EMAIL_HOST: {{ .Values.config.EMAIL_HOST }}
   EMAIL_PORT: "{{ .Values.config.EMAIL_PORT }}"
-  EMAIL_USE_TLS: "{{ .Values.config.EMAIL_USE_TLS }}"
+  EMAIL_USE_TLS: {{ .Values.config.EMAIL_USE_TLS }}
   DEFAULT_FROM_EMAIL: {{ .Values.config.DEFAULT_FROM_EMAIL }}
