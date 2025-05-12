@@ -44,10 +44,13 @@ jobs:
 
     - name: "🧪 Validate Helm chart (dry-run)"
       run: |
-        HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
-          --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
-          --set image.tag=${{ inputs.IMAGE_TAG }} \
-          --set service.type='LoadBalancer'"
+        HELM_CMD=$(cat <<EOF
+          helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
+            --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
+            --set image.tag=${{ inputs.IMAGE_TAG }} \
+            --set service.type='LoadBalancer'
+          EOF
+        )
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
