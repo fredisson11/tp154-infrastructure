@@ -47,7 +47,7 @@ jobs:
         HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
           --set image.tag=${{ inputs.IMAGE_TAG }} \
-          --set service.type='LoadBalancer'"
+          --set service.type='LoadBalancer'
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
@@ -77,7 +77,7 @@ jobs:
         HELM_CMD="helm upgrade --install ${{ inputs.MICROSVC_TYPE }} ./helm-charts/${{ inputs.MICROSVC_TYPE }} \
           --set image.repository=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.IMAGE_REPO }} \
           --set image.tag=${{ inputs.IMAGE_TAG }} \
-          --set service.type='LoadBalancer'"
+          --set service.type='LoadBalancer'
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
