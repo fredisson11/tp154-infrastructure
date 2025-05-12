@@ -54,18 +54,14 @@ jobs:
             --set config.DB_HOST='${{ vars.DB_HOST }}' \
             --set config.DB_PORT='${{ vars.DB_PORT }}' \
             --set config.DB_NAME='${{ vars.DB_NAME }}' \
-            \
             --set config.EMAIL_HOST='${{ vars.BACKEND_EMAIL_HOST }}' \
             --set config.EMAIL_PORT='${{ vars.BACKEND_EMAIL_PORT }}' \
             --set config.EMAIL_USE_TLS=${{ vars.BACKEND_EMAIL_USE_TLS}} \
             --set config.DEFAULT_FROM_EMAIL='${{ vars.BACKEND_DEFAULT_FROM_EMAIL }}' \
-            \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
             --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-            \
             --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
             --set secrets.EMAIL_HOST_PASSWORD='${{ secrets.BACKEND_EMAIL_HOST_PASSWORD }}' \
-            \
             --set secrets.CELERY_BROKER_URL='${{ secrets.BACKEND_CELERY_BROKER_URL }}' \
             --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}'"
         fi
@@ -84,18 +80,14 @@ jobs:
             --set config.DB_HOST='${{ vars.DB_HOST }}' \
             --set config.DB_PORT='${{ vars.DB_PORT }}' \
             --set config.DB_NAME='${{ vars.DB_NAME }}' \
-            \
             --set config.EMAIL_HOST='${{ vars.BACKEND_EMAIL_HOST }}' \
             --set config.EMAIL_PORT='${{ vars.BACKEND_EMAIL_PORT }}' \
             --set config.EMAIL_USE_TLS=${{ vars.BACKEND_EMAIL_USE_TLS}} \
             --set config.DEFAULT_FROM_EMAIL='${{ vars.BACKEND_DEFAULT_FROM_EMAIL }}' \
-            \
             --set secrets.DB_USER='${{ secrets.DB_USER }}' \
             --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-            \
             --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
             --set secrets.EMAIL_HOST_PASSWORD='${{ secrets.BACKEND_EMAIL_HOST_PASSWORD }}' \
-            \
             --set secrets.CELERY_BROKER_URL='${{ secrets.BACKEND_CELERY_BROKER_URL }}' \
             --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}'"
         fi
