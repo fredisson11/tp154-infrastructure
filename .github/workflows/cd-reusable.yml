@@ -65,7 +65,7 @@ jobs:
             --set secrets.CELERY_BROKER_URL='${{ secrets.BACKEND_CELERY_BROKER_URL }}' \
             --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}'"
         fi
-
+        echo "$HELM_CMD"
         $HELM_CMD --dry-run --debug
 
     - name: "🚀 Deploy ${{ inputs.MICROSVC_TYPE }} via Helm"
