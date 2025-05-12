@@ -21,9 +21,20 @@ config:
   DB_PORT: placeholder
   DB_NAME: placeholder
 
+  EMAIL_HOST: placeholder
+  EMAIL_PORT: placeholder
+  EMAIL_USE_TLS: placeholder
+  DEFAULT_FROM_EMAIL: placeholder
+
 secrets:
   DB_USER: placeholder
   DB_PASSWORD: placeholder
+
+  EMAIL_HOST_USER: placeholder
+  EMAIL_HOST_PASSWORD: placeholder
+
+  CELERY_BROKER_URL: placeholder
+  CELERY_RESULT_BACKEND: placeholder
 
 autoscaling:
   minReplicas: 1
