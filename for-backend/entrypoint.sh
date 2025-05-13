@@ -3,7 +3,7 @@
 set -e
 
 # 🔧 Replace __SPACE__ with spaces
-export EMAIL_HOST_PASSWORD="${EMAIL_HOST_PASSWORD//__SPACE__/ }"
+export EMAIL_HOST_PASSWORD=$(python3 -c "import os; print(os.environ['EMAIL_HOST_PASSWORD'].replace('__SPACE__', ' '))")
 
 echo "Applying database migrations..."
 python /app/manage.py migrate --noinput
