@@ -2,6 +2,9 @@
 
 set -e
 
+# 🔧 Replace __SPACE__ with spaces
+export EMAIL_HOST_PASSWORD="${EMAIL_HOST_PASSWORD//__SPACE__/ }"
+
 echo "Applying database migrations..."
 python /app/manage.py migrate --noinput
 
