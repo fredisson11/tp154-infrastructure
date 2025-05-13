@@ -23,12 +23,12 @@ config:
 
   EMAIL_HOST: "smtp.gmail.com"
   EMAIL_PORT: 587
-  EMAIL_USE_TLS: true
   DEFAULT_FROM_EMAIL: "smtp.tutor.project@gmail.com"
 
 secrets:
   DJANGO_SECRET_KEY: placeholder
 
+  EMAIL_USE_TLS: true # secret is used to pass a boolean variable
   DB_USER: placeholder
   DB_PASSWORD: placeholder
 
