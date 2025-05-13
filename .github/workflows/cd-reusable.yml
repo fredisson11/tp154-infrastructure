@@ -58,7 +58,8 @@ jobs:
             --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
             --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
             --set secrets.CELERY_BROKER_URL='${{ secrets.BACKEND_CELERY_BROKER_URL }}' \
-            --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}'"
+            --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}' \
+            --set secrets.DJANGO_SECRET_KEY='${{ secrets.DJANGO_SECRET_KEY }}'"
         fi
 
         $HELM_CMD --dry-run --debug
@@ -79,7 +80,8 @@ jobs:
             --set secrets.DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
             --set secrets.EMAIL_HOST_USER='${{ secrets.BACKEND_EMAIL_HOST_USER }}' \
             --set secrets.CELERY_BROKER_URL='${{ secrets.BACKEND_CELERY_BROKER_URL }}' \
-            --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}'"
+            --set secrets.CELERY_RESULT_BACKEND='${{ secrets.BACKEND_CELERY_RESULT_BACKEND }}' \
+            --set secrets.DJANGO_SECRET_KEY='${{ secrets.DJANGO_SECRET_KEY }}'"
         fi
 
         $HELM_CMD --debug
