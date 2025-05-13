@@ -6,6 +6,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}
+  annotations:
+    rollout/restartAt: "{{ now | unixEpoch }}"
 spec:
   replicas: 1
   selector:
