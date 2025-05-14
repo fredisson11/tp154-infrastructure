@@ -21,14 +21,14 @@ config:
   DB_PORT: placeholder
   DB_NAME: placeholder
 
-  EMAIL_HOST: "smtp.gmail.com"
-  EMAIL_PORT: 587
-  DEFAULT_FROM_EMAIL: "smtp.tutor.project@gmail.com"
+  EMAIL_USE_TLS: placeholder
+  EMAIL_HOST: placeholder
+  EMAIL_PORT: placeholder
+  DEFAULT_FROM_EMAIL: placeholder
 
 secrets:
   DJANGO_SECRET_KEY: placeholder
 
-  EMAIL_USE_TLS: true # secret is used to pass a boolean variable
   DB_USER: placeholder
   DB_PASSWORD: placeholder
 
