@@ -7,10 +7,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Chart.Name }}-config
 data:
-  DB_HOST: {{ .Values.config.DB_HOST }}
-  DB_PORT: {{ .Values.config.DB_PORT }}
-  DB_NAME: {{ .Values.config.DB_NAME }}
-  
-  EMAIL_HOST: {{ .Values.config.EMAIL_HOST }}
-  EMAIL_PORT: "{{ .Values.config.EMAIL_PORT }}"
-  DEFAULT_FROM_EMAIL: {{ .Values.config.DEFAULT_FROM_EMAIL }}
+{{- range $key, $val := .Values.config }}
+  {{ $key }}: {{ $val | quote }}
+{{- end }}
