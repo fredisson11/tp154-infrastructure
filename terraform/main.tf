@@ -19,7 +19,7 @@ module "gke_cluster" {
 
 module "postgres" {
   source     = "./modules/postgres"
-  depends_on = [module.gke_cluster]
+  depends_on = [ module.gke_cluster ]
 
   ROOT_PASSWORD        = var.DB_ROOT_PASSWORD
   USER                 = var.DB_USER
@@ -33,14 +33,11 @@ module "postgres" {
   replica_count     = var.db_replica_count
   primary_svc_type  = var.db_primary_svc_type
   replicas_svc_type = var.db_replicas_svc_type
-
-  is_firewall_enabled = var.is_db_firewall_enabled
-  primary_node_port   = var.db_primary_node_port
 }
 
 module "prometheus-stack" {
   source     = "./modules/prometheus-stack"
-  depends_on = [module.gke_cluster]
+  depends_on = [ module.gke_cluster ]
 
   prometheus_pvc_size            = var.prometheus_pvc_size
   prometheus_retention           = var.prometheus_retention
@@ -50,28 +47,11 @@ module "prometheus-stack" {
 
   GRAFANA_ADMIN_USER     = var.GRAFANA_ADMIN_USER
   GRAFANA_ADMIN_PASSWORD = var.GRAFANA_ADMIN_PASSWORD
-
-  grafana_root_url            = var.grafana_root_url
-  grafana_serve_from_sub_path = var.grafana_serve_from_sub_path
-  prometheus_external_url     = var.prometheus_external_url
-  prometheus_route_prefix     = var.prometheus_route_prefix
 }
 
-module "ingress-controller" {
-  source     = "./modules/ingress-controller"
-  depends_on = [module.gke_cluster]
+module "firewall" {
+  source = "./modules/firewall"
+  depends_on = [ module.postgres ]
 
-  external_traffic_policy = var.controller_svc_external_traffic_policy
-  ingress_class           = var.controller_ingress_class
-  load_balancer_type      = var.controller_svc_load_balancer_type
-}
-
-module "ingress" {
-  source = "./modules/ingress"
-  depends_on = [module.gke_cluster]
-
-  basic_auth_enabled = var.ingress_basic_auth_enabled
-
-  BASIC_AUTH_USER = var.INGRESS_BASIC_AUTH_USER
-  BASIC_AUTH_PASSWORD = var.INGRESS_BASIC_AUTH_PASSWORD
+  rules = var.firewall_rules
 }

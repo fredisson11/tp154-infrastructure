@@ -57,13 +57,3 @@ variable "replicas_svc_type" {
   type        = string
   description = "Sets the Kubernetes Service type for replicas"
 }
-
-variable "primary_node_port" {
-  type        = string
-  description = "Custom NodePort for PostgreSQL primary service"
-}
-
-variable "is_firewall_enabled" {
-  type        = bool
-  description = "Whether to create a firewall rule to allow external PostgreSQL access"
-}

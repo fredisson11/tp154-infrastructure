@@ -16,6 +16,21 @@ service:
   targetPort: 8000
   type: ClusterIP
 
+autoscaling:
+  minReplicas: 1
+  maxReplicas: 5
+  cpu:
+    targetAverageUtilization: 70
+  memory:
+    targetAverageUtilization: 75
+
+mediaStorage:
+  enabled: false
+  storageClassName: "standard"
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  mountPath: /media
+
 config:
   DB_HOST: placeholder
   DB_PORT: placeholder
@@ -37,18 +52,3 @@ secrets:
 
   CELERY_BROKER_URL: placeholder
   CELERY_RESULT_BACKEND: placeholder
-
-autoscaling:
-  minReplicas: 1
-  maxReplicas: 5
-  cpu:
-    targetAverageUtilization: 70
-  memory:
-    targetAverageUtilization: 75
-
-mediaStorage:
-  enabled: false
-  storageClassName: "standard"
-  accessMode: ReadWriteOnce
-  size: 1Gi
-  mountPath: /media

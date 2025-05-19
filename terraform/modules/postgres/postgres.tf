@@ -59,12 +59,4 @@ resource "helm_release" "postgres" {
     name  = "readReplicas.service.type"
     value = var.replicas_svc_type
   }
-
-  dynamic "set" {
-    for_each = var.is_firewall_enabled ? [1] : []
-    content {
-      name  = "primary.service.nodePorts.postgresql"
-      value = var.primary_node_port
-    }
-  }
 }

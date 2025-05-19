@@ -124,15 +124,10 @@ variable "db_replicas_svc_type" {
   description = "Sets the Kubernetes Service type for replicas"
 }
 
-variable "is_db_firewall_enabled" {
-  description = "Whether to create a firewall rule to allow external PostgreSQL access"
-  type        = bool
-}
-
 variable "db_primary_node_port" {
   description = "Custom NodePort for PostgreSQL primary service"
   type        = string
-  default     = "3000"
+  default     = "30000"
 }
 
 # --- Prometheus Stack vars:
@@ -173,56 +168,13 @@ variable "is_alertmanager_enabled" {
   description = "Flag to enable/disable Alertmanager"
 }
 
-variable "grafana_root_url" {
-  type        = string
-  description = "Root URL for Grafana server"
-}
+# --- Firewall vars:
 
-variable "grafana_serve_from_sub_path" {
-  type        = bool
-  description = "Whether Grafana serves from subpath"
-}
-
-variable "prometheus_external_url" {
-  type        = string
-  description = "External URL for Prometheus"
-}
-
-variable "prometheus_route_prefix" {
-  type        = string
-  description = "Route prefix for Prometheus"
-}
-
-# --- Nginx Ingress Controller vars:
-
-variable "controller_svc_external_traffic_policy" {
-  description = "External traffic policy for the ingress controller service"
-  type        = string
-}
-
-variable "controller_svc_load_balancer_type" {
-  description = "Load balancer type for the ingress controller service"
-  type        = string
-}
-
-variable "controller_ingress_class" {
-  description = "Ingress class name for the ingress controller"
-  type        = string
-}
-
-# --- Postgres vars:
-
-variable "ingress_basic_auth_enabled" {
-  type = bool
-  description = "Flag to enable or disable basic auth on ingress (true in dev, false in prod)"
-}
-
-variable "INGRESS_BASIC_AUTH_USER" {
-  type = string
-  description = "Ingress basic auth username (used if auth is enabled)"
-}
-
-variable "INGRESS_BASIC_AUTH_PASSWORD" {
-  type = string
-  description = "Ingress basic auth password (used if auth is enabled)"
+variable "firewall_rules" {
+  description = "Map with firewall rules"
+  type = map(object({
+    network        = string
+    ports          = list(string)
+    source_ranges  = list(string)
+  }))
 }
