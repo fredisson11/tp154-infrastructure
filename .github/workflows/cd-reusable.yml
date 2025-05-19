@@ -51,7 +51,7 @@ jobs:
 
         if [ "${{ inputs.MICROSVC_TYPE }}" = "backend" ]; then
           HELM_CMD="$HELM_CMD \
-            --set-string \"config.DJANGO_ALLOWED_HOSTS=${{ vars.DJANGO_ALLOWED_HOSTS }}\" \
+            --set-string config.DJANGO_ALLOWED_HOSTS='${{ vars.DJANGO_ALLOWED_HOSTS }}' \
             --set config.DB_HOST='${{ vars.DB_HOST }}' \
             --set config.DB_PORT='${{ vars.DB_PORT }}' \
             --set config.DB_NAME='${{ vars.DB_NAME }}' \
