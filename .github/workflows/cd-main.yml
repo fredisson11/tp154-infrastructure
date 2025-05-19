@@ -10,9 +10,9 @@ on:
         type: string
       IMAGE_TAG:
         type: string
-      MODE:
-        type: string
-        default: auto
+      # MODE:
+      #   type: string
+      #   default: auto
 
 env:
   ARTIFACT_PATH: 'deploy/inputs.env'
@@ -28,67 +28,67 @@ jobs:
       IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
     secrets: inherit
 
-  save-deploy-inputs:
-    name: "💾 Save Deployment Inputs as Artifact"
-    runs-on: ubuntu-latest
-    needs: deploy-development
+  # save-deploy-inputs:
+  #   name: "💾 Save Deployment Inputs as Artifact"
+  #   runs-on: ubuntu-latest
+  #   needs: deploy-development
 
-    steps:
-    - name: "🧾 Create deploy metadata"
-      run: |
-        mkdir -p $(dirname "${{ env.ARTIFACT_PATH }}")
-        echo "MICROSVC_TYPE=${{ inputs.MICROSVC_TYPE }}" > ${{ inputs.MICROSVC_TYPE }}
-        echo "ENV=staging" >> ${{ env.ARTIFACT_PATH }}
-        echo "IMAGE_REPO=${{ inputs.IMAGE_REPO }}" >> ${{ env.ARTIFACT_PATH }}
-        echo "IMAGE_TAG=${{ inputs.IMAGE_TAG }}" >> ${{ env.ARTIFACT_PATH }}
+  #   steps:
+  #   - name: "🧾 Create deploy metadata"
+  #     run: |
+  #       mkdir -p $(dirname "${{ env.ARTIFACT_PATH }}")
+  #       echo "MICROSVC_TYPE=${{ inputs.MICROSVC_TYPE }}" > ${{ inputs.MICROSVC_TYPE }}
+  #       echo "ENV=staging" >> ${{ env.ARTIFACT_PATH }}
+  #       echo "IMAGE_REPO=${{ inputs.IMAGE_REPO }}" >> ${{ env.ARTIFACT_PATH }}
+  #       echo "IMAGE_TAG=${{ inputs.IMAGE_TAG }}" >> ${{ env.ARTIFACT_PATH }}
 
-    - name: "📤 Upload deploy inputs as artifact"
-      uses: actions/upload-artifact@v4
-      with:
-        name: deploy-inputs
-        path: ${{ env.ARTIFACT_PATH }}
+  #   - name: "📤 Upload deploy inputs as artifact"
+  #     uses: actions/upload-artifact@v4
+  #     with:
+  #       name: deploy-inputs
+  #       path: ${{ env.ARTIFACT_PATH }}
 
-  prepare-staging:
-    if: ${{ inputs.MODE == 'manual' }}
-    name: " 🛠️ Prepare Staging Inputs"
-    runs-on: ubuntu-latest
+  # prepare-staging:
+  #   if: ${{ inputs.MODE == 'manual' }}
+  #   name: " 🛠️ Prepare Staging Inputs"
+  #   runs-on: ubuntu-latest
 
-    outputs:
-      MICROSVC_TYPE: ${{ inputs.MICROSVC_TYPE }}
-      ENV: ${{ steps.load.outputs.ENV }}
-      IMAGE_REPO: ${{ steps.load.outputs.IMAGE_REPO }}
-      IMAGE_TAG: ${{ steps.load.outputs.IMAGE_TAG }}
+  #   outputs:
+  #     MICROSVC_TYPE: ${{ inputs.MICROSVC_TYPE }}
+  #     ENV: ${{ steps.load.outputs.ENV }}
+  #     IMAGE_REPO: ${{ steps.load.outputs.IMAGE_REPO }}
+  #     IMAGE_TAG: ${{ steps.load.outputs.IMAGE_TAG }}
 
-    steps:
-      - name: "🗂️ Set artifact directory path"
-        id: set-dir
-        run: echo "ARTIFACT_DIR=$(dirname '${{ env.ARTIFACT_PATH }}')" >> $GITHUB_ENV
+  #   steps:
+  #     - name: "🗂️ Set artifact directory path"
+  #       id: set-dir
+  #       run: echo "ARTIFACT_DIR=$(dirname '${{ env.ARTIFACT_PATH }}')" >> $GITHUB_ENV
 
-      - name: "📥 Download deploy inputs artifact"
-        uses: actions/download-artifact@v4
-        with:
-          name: deploy-inputs
-          path: ${{ env.ARTIFACT_DIR }}
+  #     - name: "📥 Download deploy inputs artifact"
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: deploy-inputs
+  #         path: ${{ env.ARTIFACT_DIR }}
 
-      - name: "📄 Load deploy inputs from file"
-        id: load
-        run: |
-          set -a
-          source ${{ env.ARTIFACT_PATH }}
-          set +a
-          echo "MICROSVC_TYPE=$MICROSVC_TYPE" >> $GITHUB_OUTPUT
-          echo "ENV=$ENV" >> $GITHUB_OUTPUT
-          echo "IMAGE_REPO=$IMAGE_REPO" >> $GITHUB_OUTPUT
-          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
+  #     - name: "📄 Load deploy inputs from file"
+  #       id: load
+  #       run: |
+  #         set -a
+  #         source ${{ env.ARTIFACT_PATH }}
+  #         set +a
+  #         echo "MICROSVC_TYPE=$MICROSVC_TYPE" >> $GITHUB_OUTPUT
+  #         echo "ENV=$ENV" >> $GITHUB_OUTPUT
+  #         echo "IMAGE_REPO=$IMAGE_REPO" >> $GITHUB_OUTPUT
+  #         echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
 
   deploy-staging:
-    if: ${{ inputs.MODE == 'manual' }}
-    name: 🚀 Deploy to Staging (via ${{ needs.prepare-staging.outputs.MICROSVC_TYPE }})
+    # if: ${{ inputs.MODE == 'manual' }}
+    name: 🚀 Deploy to Staging (via ${{ inputs.MICROSVC_TYPE }})
     uses: ./.github/workflows/cd-reusable.yml
-    needs: prepare-staging
+    needs: deploy-development
     with:
-      MICROSVC_TYPE: ${{ needs.prepare-staging.outputs.MICROSVC_TYPE }}
-      ENV: ${{ needs.prepare-staging.outputs.ENV }}
-      IMAGE_REPO: ${{ needs.prepare-staging.outputs.IMAGE_REPO }}
-      IMAGE_TAG: ${{ needs.prepare-staging.outputs.IMAGE_TAG }}
+      MICROSVC_TYPE: ${{ inputs.MICROSVC_TYPE }}
+      ENV: staging
+      IMAGE_REPO: ${{ inputs.IMAGE_REPO }}
+      IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
     secrets: inherit
