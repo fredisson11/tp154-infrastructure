@@ -32,6 +32,8 @@ mediaStorage:
   mountPath: /media
 
 config:
+  DJANGO_ALLOWED_HOSTS: placeholder
+
   DB_HOST: placeholder
   DB_PORT: placeholder
   DB_NAME: placeholder
