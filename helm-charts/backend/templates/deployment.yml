@@ -1,7 +1,3 @@
-{{- if or (eq .Values.image.repository "placeholder") (eq .Values.image.tag "placeholder") }}
-{{- fail "❌ image.repository and image.tag must be specified!" }}
-{{- end }}
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:

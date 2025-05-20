@@ -1,12 +1,8 @@
-{{- if or (eq .Values.config.DB_HOST "placeholder") (eq (toString .Values.config.DB_PORT) "placeholder") (eq .Values.config.DB_NAME "placeholder") }}
-{{- fail "❌ config.DB_HOST, config.DB_PORT and config.DB_NAME must be specified!" }}
-{{- end }}
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Chart.Name }}-config
 data:
 {{- range $key, $val := .Values.config }}
-  {{ $key }}: {{ $val }}
+  {{ $key }}: "{{- if kindIs "slice" $val }}{{ join "," $val }}{{ else }}{{ $val }}{{ end }}"
 {{- end }}

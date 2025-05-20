@@ -1,0 +1,8 @@
+config:
+  DJANGO_ALLOWED_HOSTS:
+  - "127.0.0.1"
+  - localhost
+  - "34.118.236.4"
+  - "34.77.110.157"
+
+  DB_NAME: main_db

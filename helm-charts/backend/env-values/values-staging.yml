@@ -1,0 +1,8 @@
+config:
+  DJANGO_ALLOWED_HOSTS:
+  - "127.0.0.1"
+  - localhost
+  - "34.118.232.70"
+  - "35.187.173.99"
+
+  DB_NAME: stg_db

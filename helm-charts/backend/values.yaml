@@ -32,16 +32,16 @@ mediaStorage:
   mountPath: /media
 
 config:
-  DJANGO_ALLOWED_HOSTS: placeholder
+  DJANGO_ALLOWED_HOSTS: placeholder # overridden per environment
 
-  DB_HOST: placeholder
-  DB_PORT: placeholder
-  DB_NAME: placeholder
+  DB_HOST: "postgres-postgresql-primary.default.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_NAME: placeholder # overridden per environment
 
-  EMAIL_USE_TLS: placeholder
-  EMAIL_HOST: placeholder
-  EMAIL_PORT: placeholder
-  DEFAULT_FROM_EMAIL: placeholder
+  EMAIL_USE_TLS: "true"
+  EMAIL_HOST: "smtp.gmail.com"
+  EMAIL_PORT: "587"
+  DEFAULT_FROM_EMAIL: "smtp.tutor.project@gmail.com"
 
 secrets:
   DJANGO_SECRET_KEY: placeholder
