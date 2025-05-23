@@ -15,20 +15,20 @@ env:
   ARTIFACT_PATH: 'deploy/inputs.env'
 
 jobs:
-  deploy-development:
-    name: "🌱 Deploy to Development (via ${{ inputs.MICROSVC_TYPE }})"
-    uses: ./.github/workflows/cd-reusable.yml
-    with:
-      MICROSVC_TYPE: ${{ inputs.MICROSVC_TYPE }}
-      ENV: development
-      IMAGE_REPO: ${{ inputs.IMAGE_REPO }}
-      IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
-    secrets: inherit
+  # deploy-development:
+  #   name: "🌱 Deploy to Development (via ${{ inputs.MICROSVC_TYPE }})"
+  #   uses: ./.github/workflows/cd-reusable.yml
+  #   with:
+  #     MICROSVC_TYPE: ${{ inputs.MICROSVC_TYPE }}
+  #     ENV: development
+  #     IMAGE_REPO: ${{ inputs.IMAGE_REPO }}
+  #     IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
+  #   secrets: inherit
 
   deploy-staging:
     name: 🚀 Deploy to Staging (via ${{ inputs.MICROSVC_TYPE }})
     uses: ./.github/workflows/cd-reusable.yml
-    needs: deploy-development
+    # needs: deploy-development
     with:
       MICROSVC_TYPE: ${{ inputs.MICROSVC_TYPE }}
       ENV: staging
