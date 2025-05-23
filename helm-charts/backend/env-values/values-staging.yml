@@ -4,5 +4,6 @@ config:
   - localhost
   - "34.118.232.70"
   - "34.38.203.38"
+  - backend-svc
 
   DB_NAME: stg_db

@@ -31,6 +31,9 @@ spec:
           httpGet:
             path: /health/
             port: {{ .Values.service.targetPort }}
+            httpHeaders:
+            - name: Host
+              value: {{ .Chart.Name }}-svc
           initialDelaySeconds: 45
           periodSeconds: 10
           failureThreshold: 3
@@ -38,6 +41,9 @@ spec:
           httpGet:
             path: /health/
             port: {{ .Values.service.targetPort }}
+            httpHeaders:
+            - name: Host
+              value: {{ .Chart.Name }}-svc
           initialDelaySeconds: 20
           periodSeconds: 10
           failureThreshold: 3

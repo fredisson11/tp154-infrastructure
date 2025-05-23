@@ -4,5 +4,6 @@ config:
   - localhost
   - "34.118.236.4"
   - "34.77.110.157"
-
+  - backend-svc
+  
   DB_NAME: main_db
