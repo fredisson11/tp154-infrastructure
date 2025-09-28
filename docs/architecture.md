@@ -133,8 +133,8 @@ flowchart TD
 ---
 
 ## 📚 Documentation
-- [CI/CD](./docs/ci-cd.md)  
-- [Secrets](./docs/secrets.md)  
-- [Environments](./docs/environments.md)  
-- [Terraform](./docs/terraform.md)  
-- [Repository Structure](./docs/repo-structure.md)  
+- [CI/CD](./ci-cd.md)  
+- [Secrets](./secrets.md)  
+- [Environments](./environments.md)  
+- [Terraform](./terraform.md)  
+- [Repository Structure](./repo-structure.md)  

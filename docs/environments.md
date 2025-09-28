@@ -64,8 +64,8 @@ This file describes the **Astra+ project environments** and their key characteri
 ---
 
 ## 📚 Documentation
-- [CI/CD](./docs/ci-cd.md)  
-- [Architecture](./docs/architecture.md)  
-- [Secrets](./docs/secrets.md)  
-- [Terraform](./docs/terraform.md)  
-- [Repository Structure](./docs/repo-structure.md)  
+- [CI/CD](./ci-cd.md)  
+- [Architecture](./architecture.md)  
+- [Secrets](./secrets.md)  
+- [Terraform](./terraform.md)  
+- [Repository Structure](./repo-structure.md)  

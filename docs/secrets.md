@@ -51,8 +51,8 @@ This document describes the **secret management policy** in the **Astra+ project
 ---
 
 ## 📚 Documentation
-- [CI/CD](./docs/ci-cd.md)  
-- [Architecture](./docs/architecture.md)  
-- [Environments](./docs/environments.md)  
-- [Terraform](./docs/terraform.md)  
-- [Repository Structure](./docs/repo-structure.md)  
+- [CI/CD](./ci-cd.md)  
+- [Architecture](./architecture.md)  
+- [Environments](./environments.md)  
+- [Terraform](./terraform.md)  
+- [Repository Structure](./repo-structure.md)  

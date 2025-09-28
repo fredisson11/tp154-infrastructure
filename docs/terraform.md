@@ -60,8 +60,8 @@ terraform apply
 ---
 
 ## 📚 Documentation
-- [CI/CD](./docs/ci-cd.md)  
-- [Architecture](./docs/architecture.md)  
-- [Secrets](./docs/secrets.md)  
-- [Environments](./docs/environments.md)  
-- [Repository Structure](./docs/repo-structure.md)  
+- [CI/CD](./ci-cd.md)  
+- [Architecture](./architecture.md)  
+- [Secrets](./secrets.md)  
+- [Environments](./environments.md)  
+- [Repository Structure](./repo-structure.md)  

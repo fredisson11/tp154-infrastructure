@@ -87,8 +87,8 @@ flowchart TD
 ---
 
 ## 📚 Documentation
-- [Architecture](./docs/architecture.md)  
-- [Secrets](./docs/secrets.md)  
-- [Environments](./docs/environments.md)  
-- [Terraform](./docs/terraform.md)  
-- [Repository Structure](./docs/repo-structure.md)  
+- [Architecture](./architecture.md)  
+- [Secrets](./secrets.md)  
+- [Environments](./environments.md)  
+- [Terraform](./terraform.md)  
+- [Repository Structure](./repo-structure.md)  
