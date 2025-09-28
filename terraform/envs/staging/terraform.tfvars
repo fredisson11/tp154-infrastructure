@@ -16,7 +16,7 @@ is_db_pvc_enabled    = true
 db_pvc_size          = "3Gi"
 db_architecture      = "replication"
 db_replica_count     = 1
-db_primary_svc_type  = "LoadBalancer"
+db_primary_svc_type  = "ClusterIP"
 db_replicas_svc_type = "ClusterIP"
 
 prometheus_pvc_size            = "10Gi"
@@ -26,16 +26,16 @@ grafana_pvc_size               = "5Gi"
 is_alertmanager_enabled        = true
 
 firewall_rules = {
-  "allow-backend" = {
-    network       = "default"
-    ports         = ["8000"]
-    source_ranges = ["0.0.0.0/0"]
-  },
-  "allow-postgres" = {
-    network       = "default"
-    ports         = ["30000"]
-    source_ranges = ["0.0.0.0/0"]
-  },
+  # "allow-backend" = {
+  #   network       = "default"
+  #   ports         = ["8000"]
+  #   source_ranges = ["0.0.0.0/0"]
+  # },
+  # "allow-postgres" = {
+  #   network       = "default"
+  #   ports         = ["30000"]
+  #   source_ranges = ["0.0.0.0/0"]
+  # },
   "allow-frontend" = {
     network       = "default"
     ports         = ["3000"]
