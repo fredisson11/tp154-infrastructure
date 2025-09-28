@@ -33,13 +33,13 @@ jobs:
       - name: "🔧 Set up Node.js"
         uses: actions/setup-node@v4
         with:
-          python-version: "${{ env.NODE_VERSION }}"
+          node-version: "${{ env.NODE_VERSION }}"
 
       - name: "📦 Install dependencies"
         run: npm ci
 
       - name: "📦 Install test tools"
-        run: npm install --save-dev prettier bandit jest
+        run: npm install --save-dev prettier jest
 
       - name: "🎨 Run eslint (style checks)"
         run: npm run lint
@@ -49,17 +49,17 @@ jobs:
         run: npm run prettier --check .
         continue-on-error: true
 
-      - name: "🔐 Run bandit (security checks) and save report"
+      - name: "🔐 Run npm audit (security checks) and save report"
         run: |
           mkdir -p reports
-          bandit -r . -f txt -o reports/bandit-report.txt || true
+          npm audit --json > reports/npm-audit-report.json || true
         continue-on-error: true
 
-      - name: "📤 Upload bandit report"
+      - name: "📤 Upload npm audit report"
         uses: actions/upload-artifact@v4
         with:
-          name: bandit-report
-          path: reports/bandit-report.txt
+          name: npm-audit-report
+          path: reports/npm-audit-report.json
         continue-on-error: true
 
       - name: "🧪 Run unit tests uses Jest (placeholder)"
