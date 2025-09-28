@@ -62,9 +62,13 @@ Focus: DevOps work — centralized deployment to **GKE**, secrets management, **
 ## 🛠️ CI/CD Overview
 
 1. **CI (frontend/backend):**  
-   ✅ Lint, 🔐 Security (npm audit / bandit), 🧪 Tests (placeholder), 🐳 Build & Push Docker image, 📡 Dispatch CD.  
+   - ✅ Lint.
+   - 🔐 Security (npm audit / bandit).
+   - 🧪 Tests (placeholder)
+   - 🐳 Build & Push Docker image
+   - 📡 Dispatch CD.  
 
-2. **CD (infra repo):**  
+3. **CD (infra repo):**  
    - 🟢 Development: automatic cluster deployment.  
    - 🟡 Staging: manual deployment after dev.  
    - 🧩 Helm dry-run + real deploy.  
